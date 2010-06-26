@@ -114,16 +114,24 @@ When a merge isn't resolved automatically, git leaves the index and
 the working tree in a special state that gives you all the
 information you need to help resolve the merge.
 
-如
+如果执行自动合并没有成功的话，git会在索引和工作树里设置一个特殊的状态，
+提示你如何解决合并中出现的冲突。
+
 Files with conflicts are marked specially in the index, so until you
 resolve the problem and update the index, linkgit:git-commit[1] will
 fail:
+
+有冲突(conflicts)的文件会保存在索引中，除非你解决了问题了并且更新了索引
+执行 linkgit:git-commit[1]都会失败:
 
     $ git commit
     file.txt: needs merge
 
 Also, linkgit:git-status[1] will list those files as "unmerged", and the
 files with conflicts will have conflict markers added, like this:
+
+如果执行 linkgit:git-status[1] 会显示这些文件没有合并(unmerged),这些有冲
+突的文件里面会添加像下面的冲突标识符:
 
     <<<<<<< HEAD:file.txt
     Hello world
@@ -133,6 +141,8 @@ files with conflicts will have conflict markers added, like this:
 
 All you need to do is edit the files to resolve the conflicts, and then
 
+你所需要的做是就是编辑解决冲突，（接着把冲突标识符删掉），再执行下面的命令:
+
     $ git add file.txt
     $ git commit
 
@@ -141,8 +151,14 @@ some information about the merge.  Normally you can just use this
 default message unchanged, but you may add additional commentary of
 your own if desired.
 
+注意：提交注释里已经有一些关合并的信息了，通常是用这些默认信息，但是
+你可以添加一些你想要的注释。
+
 The above is all you need to know to resolve a simple merge.  But git
 also provides more information to help resolve conflicts:
+
+上面这些就是你要做一个简单合并所要知道的，但是git提供更多的一些信息来
+帮助解决冲突。
 
 ### Undoing a merge ###
 
