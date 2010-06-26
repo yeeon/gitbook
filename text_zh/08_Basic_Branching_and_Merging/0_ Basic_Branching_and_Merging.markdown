@@ -72,17 +72,18 @@ delete the branch with
 Branches are cheap and easy, so this is a good way to try something
 out.
 
-### How to merge ###
+分支是很轻量级且容易的，这样就很容易来尝试它。
 
-You can rejoin two diverging branches of development using
+### 如何合并 ###
+
+你可以用下面的面的命令来合并两个分离的分支：
 linkgit:git-merge[1]:
 
     $ git merge branchname
 
-merges the changes made in the branch "branchname" into the current
-branch.  If there are conflicts--for example, if the same file is
-modified in two different ways in the remote branch and the local
-branch--then you are warned; the output may look something like this:
+这个命令把分支"branchname"合并到了当前分支里面。如有冲突(冲突--
+同一个文件在远程分支和本地分支里按不同的方式被修改了）；那么命令
+的执行输出就像下面一样
 
     $ git merge next
      100% (4/4) done
@@ -95,16 +96,25 @@ you resolve the conflicts manually, you can update the index
 with the contents and run git commit, as you normally would when
 modifying a file.
 
+在有问题的文件上会有冲突标记，在你手动解决完冲突后就可以把此文件添
+加到索引(index)中去，用git commit命令来提交，就像平时修改了一个文件
+一样。
+
 If you examine the resulting commit using gitk, you will see that it
 has two parents: one pointing to the top of the current branch, and
 one to the top of the other branch.
 
+如果你用gitk来查看commit的结果，你会看到它有两个父分支：一个指向当前
+的分支，另外一个指向刚才合并进来的分支。
+
 ### Resolving a merge ###
+### 解决合并中的冲突 ###
 
 When a merge isn't resolved automatically, git leaves the index and
 the working tree in a special state that gives you all the
 information you need to help resolve the merge.
 
+如
 Files with conflicts are marked specially in the index, so until you
 resolve the problem and update the index, linkgit:git-commit[1] will
 fail:
