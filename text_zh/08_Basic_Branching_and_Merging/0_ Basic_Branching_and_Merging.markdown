@@ -161,13 +161,19 @@ also provides more information to help resolve conflicts:
 帮助解决冲突。
 
 ### Undoing a merge ###
+### 撒销一个合并 ###
 
 If you get stuck and decide to just give up and throw the whole mess
 away, you can always return to the pre-merge state with
 
+如果你觉得你合并后的状态是一团乱麻，想把当前的修改都放弃，你可以用下
+面的命令回到合并之前的状态：
+
     $ git reset --hard HEAD
 
 Or, if you've already committed the merge that you want to throw away,
+
+或者你已经把合并后的代码提交，但还是想把它们撒销：
 
     $ git reset --hard ORIG_HEAD
 
@@ -175,16 +181,27 @@ However, this last command can be dangerous in some cases--never throw away a
 commit if that commit may itself have been merged into another branch, as
 doing so may confuse further merges.
 
+但是刚才这条命令在某些情况会很危险，如果你把一个已经被另一个分支合并的分支给删了，那么
+以后在合并相关的分支时会出错。
+
 ### Fast-forward merges ###
+###  ###
 
 There is one special case not mentioned above, which is treated differently.
 Normally, a merge results in a merge commit with two parents, one for each of
 the two lines of development that were merged.
+
+还有一种需要特殊对待的情况，在前面没有提到。通常，一个合并会产生一个合并提交(commit),
+把两个父分支里的每一行内容都合并进来。
 
 However, if the current branch has not diverged from the other--so every
 commit present in the current branch is already contained in the other--then
 git just performs a "fast forward"; the head of the current branch is moved
 forward to point at the head of the merged-in branch, without any new commits
 being created.
+
+但是，如果当前的分支和另一个分支没有内容上的差异，就是说当前分的每一个提交(commit)
+都已经存在另一个分支里，git 就会执行一个“快速向前"(fast forward)操作；git 不创建任
+何新的提交(commit),只是将当前分支指向合并进来的分支。
 
 [gitcast:c6-branch-merge]("GitCast #6: Branching and Merging")
