@@ -1,11 +1,6 @@
-## Reviewing History - Git Log ##
 ## 查看历史 －Git日志 ##
 
-The linkgit:git-log[1] command can show lists of commits.  On its
-own, it shows all commits reachable from the parent commit; but you
-can also make more specific requests:
-
-linkgit:git-log[1]命令可以示所有的提交(commit). 
+linkgit:git-log[1]命令可以示所有的提交(commit)。 ......
 
     $ git log v2.5..	    # commits since (not reachable from) v2.5
     $ git log test..master	# commits reachable from master but not test
@@ -19,16 +14,10 @@ linkgit:git-log[1]命令可以示所有的提交(commit).
     			            # matching the string 'foo()'
     $ git log --no-merges	# dont show merge commits
 
-And of course you can combine all of these; the following finds
-commits since v2.5 which touch the Makefile or any file under fs:
-
 当然你也可以组合上面的命令选项；下面的命令就是找出所有从"v2.5“开
 始在fs目录下的所有Makefile的修改.
 
     $ git log v2.5.. Makefile fs/
-
-Git log will show a listing of each commit, with the most recent commits
-first, that match the arguments given to the log command.
 
 Git会根据git log命令的参数，按时间顺序显示相关的提交(commit)。
 
@@ -45,8 +34,6 @@ Git会根据git log命令的参数，按时间顺序显示相关的提交(commit
 	    bash completion: 'git apply' should use 'fix' not 'strip'
 	    Bring completion up to date with the man page.
    
-You can also ask git log to show patches:
-
 你也可以让git log显示补丁(patchs):
 
     $ git log -p
@@ -71,12 +58,8 @@ You can also ask git log to show patches:
 
 	 pserver (/etc/inetd.conf):
 
-### Log Stats ###
-### 日志统计 ###
 
-If you pass the <code>--stat</code> option to 'git log', it will show you
-which files have changed in that commit and how many lines were added and 
-removed from each.
+### 日志统计 ###
 
 如果用<code>--stat</code>选项使用'git log',它会显示在每个提交(commit)中哪
 个文件被修改，添加或删除了多少行内容。
@@ -94,12 +77,7 @@ removed from each.
 	 2 files changed, 16 insertions(+), 1 deletions(-)
 
 
-### Formatting the Log ###
 ### 格式化日志 ###
-
-
-You can also format the log output almost however you want.  The '--pretty'
-option can take a number of preset formats, such as 'oneline':
 
 你可以按你的要求来格式化日志输出。‘--pretty'参数可以使用若干表现格式，如‘oneline':
 
@@ -111,7 +89,7 @@ option can take a number of preset formats, such as 'oneline':
 	0f87b4d9020fff756c18323106b3fd4e2f422135 merged recent changes: * accepts relative alt pat
 	f0ce7d5979dfb0f415799d086e14a8d2f9653300 updated the Manifest file
 
-or you can do 'short' format:
+
 或者你也可以使用 'short' 格式:
 
 	$ git log --pretty=short
@@ -130,10 +108,6 @@ or you can do 'short' format:
 
 	    Add diff-lcs dependency
 
-You can also use 'medium', 'full', 'fuller', 'email' or 'raw'.  If those formats
-aren't exactly what you need, you can also create your own format with the
-'--pretty=format' option (see the linkgit:git-log[1] docs for all the formatting options).
-
 你也可用‘medium','full','fuller','email' 或‘raw'. 如果这些格式不完全符合你的相求，
 你也可以用‘--pretty=format'参数(参见：linkgit:git-log[1])来创建你自己的"格式“.
 
@@ -144,9 +118,6 @@ aren't exactly what you need, you can also create your own format with the
 	e1ba1e3 was Hans Engel, 11 days ago, message: Add dependency for Open4
 	0f87b4d was Scott Chacon, 12 days ago, message: merged recent changes:
 	
-Another interesting thing you can do is visualize the commit graph with the
-'--graph' option, like so:
-
 另一个有趣的事是：你可以用'--graph'选项来可视化你的提交图(commit graph),就像下面这样:
 
 	$ git log --pretty=format:'%h : %s' --graph
@@ -160,37 +131,21 @@ Another interesting thing you can do is visualize the commit graph with the
 	|/  
 	* d6016bc : require time for xmlschema
 
-It will give a pretty nice ASCII representation of the commit history lines.
-
 它会用ASCII字符来画出一个很漂亮的提交历史(commit history)线。
 
-### Ordering the Log ###
+
 ### 日志排序 ###
 
-You can also view the log entries in a few different orders. 
-Note that git log starts with the most recent commit and works
-backwards through the parents; however, since git history can contain
-multiple independent lines of development, the particular order that
-commits are listed in may be somewhat arbitrary.
 
 你也可以把日志记录按一些不同的顺序来显示。注意，git日志从最近的提
 交(commit)开始，并且从这里开始向它们父分支回溯。然而git历史可能包
 括多个互不关联的开发线路，这样有时提交(commits)显示出来就有点杂乱。
 
 
-If you want to specify a certain order, you can add an ordering option
-to the git log command.
-
 如果你要指定一个特定的顺序，可以为git log命令添加顺序参数(ordering option).
-
-By default, the commits are shown in reverse chronological order.
 
 按默认情况，提交(commits)会按逆时间(reverse chronological)顺序显示。
 
-However, you can also specify '--topo-order', which makes the commits
-appear in topological order (i.e. descendant commits are shown before their parents).
-If we view the git log for the Grit repo in topo-order, you can see that the
-development lines are all grouped together.
 
 但是你也可以指定‘--topo-order'参数，这就会让提交(commits)按拓朴顺序来显示
 (就是子提交在它们的交提交前显示). 如果你用git log命令按拓朴顺序来显示git仓库
@@ -225,11 +180,6 @@ development lines are all grouped together.
 	| | | * | 0a7d387 : Removed debug print.
 	| | | * | 4d6b69c : Fixed to close opened file description.
 
-You can also use '--date-order', which orders the commits primarily by commit date.
-This option is similar to --topo-order in the sense that no parent comes before all of its children, 
-but otherwise things are still ordered in the commit timestamp order. You can
-see that development lines are not grouped together here, that they jump around
-as parallel development occurred:
 
 你也可以用'--date-order'参数，这样显示提交日志的顺序主要按提交日期来排序。
 这个参数和'--topo-order'有一点像，没有父分支会在它们的子分支前显示，但是
@@ -265,8 +215,6 @@ as parallel development occurred:
 	| * | | a0e4a3d : updated grit gemspec
 	| * | | 7569d0d : including code from github updates
 
-
-Lastly, you can reverse the order of the log with the '--reverse' option.
 
 最后，你也可以用 ‘--reverse'参数来逆向显示所有日志。
 
