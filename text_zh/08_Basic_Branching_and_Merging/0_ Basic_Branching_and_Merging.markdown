@@ -91,44 +91,24 @@ linkgit:git-merge[1]:
     CONFLICT (content): Merge conflict in file.txt
     Automatic merge failed; fix conflicts and then commit the result.
 
-Conflict markers are left in the problematic files, and after
-you resolve the conflicts manually, you can update the index
-with the contents and run git commit, as you normally would when
-modifying a file.
-
 在有问题的文件上会有冲突标记，在你手动解决完冲突后就可以把此文件添
 加到索引(index)中去，用git commit命令来提交，就像平时修改了一个文件
 一样。
 
-If you examine the resulting commit using gitk, you will see that it
-has two parents: one pointing to the top of the current branch, and
-one to the top of the other branch.
 
 如果你用gitk来查看commit的结果，你会看到它有两个父分支：一个指向当前
 的分支，另外一个指向刚才合并进来的分支。
 
-### Resolving a merge ###
 ### 解决合并中的冲突 ###
-
-When a merge isn't resolved automatically, git leaves the index and
-the working tree in a special state that gives you all the
-information you need to help resolve the merge.
 
 如果执行自动合并没有成功的话，git会在索引和工作树里设置一个特殊的状态，
 提示你如何解决合并中出现的冲突。
-
-Files with conflicts are marked specially in the index, so until you
-resolve the problem and update the index, linkgit:git-commit[1] will
-fail:
 
 有冲突(conflicts)的文件会保存在索引中，除非你解决了问题了并且更新了索引
 执行 linkgit:git-commit[1]都会失败:
 
     $ git commit
     file.txt: needs merge
-
-Also, linkgit:git-status[1] will list those files as "unmerged", and the
-files with conflicts will have conflict markers added, like this:
 
 如果执行 linkgit:git-status[1] 会显示这些文件没有合并(unmerged),这些有冲
 突的文件里面会添加像下面的冲突标识符:
@@ -139,66 +119,35 @@ files with conflicts will have conflict markers added, like this:
     Goodbye
     >>>>>>> 77976da35a11db4580b80ae27e8d65caf5208086:file.txt
 
-All you need to do is edit the files to resolve the conflicts, and then
-
 你所需要的做是就是编辑解决冲突，（接着把冲突标识符删掉），再执行下面的命令:
 
     $ git add file.txt
     $ git commit
 
-Note that the commit message will already be filled in for you with
-some information about the merge.  Normally you can just use this
-default message unchanged, but you may add additional commentary of
-your own if desired.
-
 注意：提交注释里已经有一些关合并的信息了，通常是用这些默认信息，但是
 你可以添加一些你想要的注释。
-
-The above is all you need to know to resolve a simple merge.  But git
-also provides more information to help resolve conflicts:
 
 上面这些就是你要做一个简单合并所要知道的，但是git提供更多的一些信息来
 帮助解决冲突。
 
-### Undoing a merge ###
 ### 撒销一个合并 ###
-
-If you get stuck and decide to just give up and throw the whole mess
-away, you can always return to the pre-merge state with
 
 如果你觉得你合并后的状态是一团乱麻，想把当前的修改都放弃，你可以用下
 面的命令回到合并之前的状态：
 
     $ git reset --hard HEAD
 
-Or, if you've already committed the merge that you want to throw away,
-
 或者你已经把合并后的代码提交，但还是想把它们撒销：
 
     $ git reset --hard ORIG_HEAD
 
-However, this last command can be dangerous in some cases--never throw away a
-commit if that commit may itself have been merged into another branch, as
-doing so may confuse further merges.
-
 但是刚才这条命令在某些情况会很危险，如果你把一个已经被另一个分支合并的分支给删了，那么
 以后在合并相关的分支时会出错。
 
-### Fast-forward merges ###
-###  ###
-
-There is one special case not mentioned above, which is treated differently.
-Normally, a merge results in a merge commit with two parents, one for each of
-the two lines of development that were merged.
+### 快速向前合并 ###
 
 还有一种需要特殊对待的情况，在前面没有提到。通常，一个合并会产生一个合并提交(commit),
 把两个父分支里的每一行内容都合并进来。
-
-However, if the current branch has not diverged from the other--so every
-commit present in the current branch is already contained in the other--then
-git just performs a "fast forward"; the head of the current branch is moved
-forward to point at the head of the merged-in branch, without any new commits
-being created.
 
 但是，如果当前的分支和另一个分支没有内容上的差异，就是说当前分的每一个提交(commit)
 都已经存在另一个分支里，git 就会执行一个“快速向前"(fast forward)操作；git 不创建任
