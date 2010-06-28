@@ -5,8 +5,11 @@ Suppose that Alice has started a new project with a git repository in
 /home/alice/project, and that Bob, who has a home directory on the
 same machine, wants to contribute.
 
+假设Alice现在开始了一个新项目，在/home/alice/project建了一个新的git
+仓库(repository)；另一个叫Bob的工作目录也在同一台机器，他要提交代码。
 
 Bob begins with:
+Bob 执行了这样的命令:
 
     $ git clone /home/alice/project myrepo
 
@@ -14,8 +17,13 @@ This creates a new directory "myrepo" containing a clone of Alice's
 repository.  The clone is on an equal footing with the original
 project, possessing its own copy of the original project's history.
 
+这就建了一个新的叫"myrepo"的目录，这个目录里包含了一份Alice的仓库的
+克隆(clone). 这份克隆和原始的项目一模一样，并且拥有原始项目的历史记
+录。
+
 Bob then makes some changes and commits them:
 
+Bob 做了一些修改并且提交(commit)它们:
 
     (edit files)
     $ git commit -a
@@ -23,6 +31,9 @@ Bob then makes some changes and commits them:
 
 When he's ready, he tells Alice to pull changes from the repository
 at /home/bob/myrepo.  She does this with:
+
+当他准备好了，他告诉Alice从仓库/home/bob/myrepo中把他的个修改给拉
+(pull)下来。她执行了下面几条命令:
 
     $ cd /home/alice/project
     $ git pull /home/bob/myrepo master
@@ -33,19 +44,32 @@ then she may need to manually fix any conflicts.  (Note that the
 "master" argument in the above command is actually unnecessary, as it
 is the default.)
 
+这就把Bob的主(master)分支合并到了Alice的当前分支里了。如果Alice在
+Bob修改文件内容的同时也做了修改的话，她可能需要手工去修复冲突.
+(注意："master"参数在上面的命令中并不一定是必须的，因为这是一个
+默认参数)
+
 The "pull" command thus performs two operations: it fetches changes
 from a remote branch, then merges them into the current branch.
+
+git pull命令执行两个操作: 它从远程分支(remote branch)抓取修改
+的内容，然后把它合并进当前的分支。
 
 When you are working in a small closely knit group, it is not
 unusual to interact with the same repository over and over
 again.  By defining 'remote' repository shorthand, you can make
 it easier:
 
+如果你要经常操作远程分支(remote branch),你可以定义它们的缩写:
+
     $ git remote add bob /home/bob/myrepo
 
 With this, Alice can perform the first operation alone using the
 "git fetch" command without merging them with her own branch,
 using:
+
+这样，Alic可以用"git fetch"" 来执行"git pull"前半部分的工作，
+但是它并不会把抓下来的修改合并到当前分支里。
 
     $ git fetch bob
 
@@ -54,18 +78,24 @@ remote repository shorthand set up with `git remote`, what was
 fetched is stored in a remote tracking branch, in this case
 `bob/master`.  So after this:
 
+
     $ git log -p master..bob/master
 
 shows a list of all the changes that Bob made since he branched from
 Alice's master branch.
 
+
+
 After examining those changes, Alice
 could merge the changes into her master branch:
+
+当检查完修改后,Alice就可以把修改合并到她的主分支中。
 
     $ git merge bob/master
 
 This `merge` can also be done by 'pulling from her own remote
 tracking branch', like this:
+
 
     $ git pull . remotes/bob/master
 
