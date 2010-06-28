@@ -1,13 +1,17 @@
 ## Comparing Commits - Git Diff ##
+## 比较提交 - Git Diff ##
 
 You can generate diffs between any two versions of your project using
 linkgit:git-diff[1]:
+
+你可以用 linkegit:git-diff[1] 来比较项目中任意两个版本的差异。
 
     $ git diff master..test
 
 That will produce the diff between the tips of the two branches.  If
 you'd prefer to find the diff from their common ancestor to test, you
 can use three dots instead of two:
+
 
     $ git diff master...test
 
