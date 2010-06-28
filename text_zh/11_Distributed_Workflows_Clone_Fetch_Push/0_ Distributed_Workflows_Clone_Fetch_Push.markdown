@@ -1,8 +1,10 @@
 ## Distributed Workflows ##
+## 分布式的工作流 ##
 
 Suppose that Alice has started a new project with a git repository in
 /home/alice/project, and that Bob, who has a home directory on the
 same machine, wants to contribute.
+
 
 Bob begins with:
 
