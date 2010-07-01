@@ -1,6 +1,6 @@
 ## 比较提交 - Git Diff ##
 
-你可以用 linkegit:git-diff[1] 来比较项目中任意两个版本的差异。
+你可以用 linkgit:git-diff[1] 来比较项目中任意两个版本的差异。
 
     $ git diff master..test
 
