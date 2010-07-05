@@ -12,6 +12,8 @@ That will produce the diff between the tips of the two branches.  If
 you'd prefer to find the diff from their common ancestor to test, you
 can use three dots instead of two:
 
+这条件命令会输出个分支间的差异(diff). 如果你想看它们公有父分支...
+你可用3个. 来代替2个 . 。
 
     $ git diff master...test
 
@@ -19,17 +21,26 @@ linkgit:git-diff[1] is an incredibly useful tool for figuring out what has
 changed between any two points in your project's history, or to see what
 people are trying to introduce in new branches, etc.
 
+linkgit:git-diff[1] 是一个非常有用的工具，你可以用它来查看项目历史上任意
+两点间的改动，或是用来查看某要加进来的新分支的情况。
+
 ### What you will commit ###
+### 你将要提交的内容 ###
 
 You will commonly use linkgit:git-diff[1] for figuring out differences between 
 your last commit, your index, and your current working directory.
 A common use is to simply run 
     
+你通常会用 linkgit:git-diff[1]来查找你上次提交,你的的索引,你当前工作目录间的
+差异。
+
     $ git diff
     
 which will show you changes in the working directory that are not yet 
 staged for the next commit. 
 If you want to see what _is_ staged for the next commit, you can run
+
+如果你要查看你项目里有哪些内容在下次提交时将要被提交，你可以执行下面的命令:
 
     $ git diff --cached
 
@@ -37,21 +48,27 @@ which will show you the difference between the index and your last commit;
 what you would be committing if you run "git commit" without the "-a" option.
 Lastly, you can run 
 
+
     $ git diff HEAD
 
 which shows changes in the working directory since your last commit; 
 what you would be committing if you run "git commit -a".
 
 ### More Diff Options ###
+### 更多比较参数 ###
 
 If you want to see how your current working directory differs from the state of
 the project in another branch, you can run something like
+
+如果你要查看项目中当前分支与另一个分支之间的差异，你可以运行下面的命令:
 
     $ git diff test
     
 This will show you what is different between your current working directory
 and the snapshot on the 'test' branch.  You can also limit the comparison to a
 specific file or subdirectory by adding a *path limiter*:
+
+
 
     $ git diff HEAD -- ./lib 
 
