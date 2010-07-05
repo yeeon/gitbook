@@ -9,9 +9,6 @@
 
     $ git diff master...test
 
-linkgit:git-diff[1] is an incredibly useful tool for figuring out what has
-changed between any two points in your project's history, or to see what
-people are trying to introduce in new branches, etc.
 
 linkgit:git-diff[1] 是一个难以置信的有用的工具，可以找出你项目上任意两点间
 的改动，或是用来查看别人提交进来的新分支。
