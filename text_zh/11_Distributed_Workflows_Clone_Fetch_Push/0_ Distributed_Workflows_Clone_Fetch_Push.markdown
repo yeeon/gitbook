@@ -84,7 +84,7 @@ fetched is stored in a remote tracking branch, in this case
 shows a list of all the changes that Bob made since he branched from
 Alice's master branch.
 
-
+上面的命令把Bob从Alice的主分支(master)中签出后所做的修改全部显示出来。
 
 After examining those changes, Alice
 could merge the changes into her master branch:
@@ -96,13 +96,19 @@ could merge the changes into her master branch:
 This `merge` can also be done by 'pulling from her own remote
 tracking branch', like this:
 
+这种合并(merge)也可以用pull来完成，就像下面的命令一样：
 
     $ git pull . remotes/bob/master
 
 Note that git pull always merges into the current branch,
 regardless of what else is given on the command line.
 
+注意：git pull 会把远程分支合并进当前的分支里，而不管你在命令
+行里指定什么。
+
 Later, Bob can update his repo with Alice's latest changes using
+
+其后，Bob可以更新它的本地仓库--把Alice做的修改拉过来(pull):
 
     $ git pull
 
@@ -111,6 +117,10 @@ when Bob cloned Alice's repository, git stored the location of her
 repository in the repository configuration, and that location is
 used for pulls:
 
+如果Bob从Alice的仓库克隆(clone)，那么他就不需要指定Alice仓库的地
+址；因为Git把Alice仓库的地址存储到Bob的仓库配库文件，这个地址就是
+在git pull时使用：
+
     $ git config --get remote.origin.url
     /home/alice/project
 
@@ -118,8 +128,14 @@ used for pulls:
 "git config -l", and the linkgit:git-config[1] man page
 explains the meaning of each option.)
 
+(如果要查看git clone创建的所有配置参数，可以使用"git config -l",
+linkgit:git-config[1] 的帮助文件里解释了每个参数的含义.)
+
 Git also keeps a pristine copy of Alice's master branch under the
 name "origin/master":
+
+Git同时也保存了一份最初(pristine)的Alice主分支(master)，在
+“origin/master"下面。
 
     $ git branch -r
       origin/master
@@ -127,17 +143,27 @@ name "origin/master":
 If Bob later decides to work from a different host, he can still
 perform clones and pulls using the ssh protocol:
 
+如果Bob打算在另外一台主机上工作，他可以通过ssh协议来执行"clone"
+和“pull"操作：
+
     $ git clone alice.org:/home/alice/project myrepo
 
 Alternatively, git has a native protocol, or can use rsync or http;
 see linkgit:git-pull[1] for details.
 
+git有他自带的协议(native protocol),还可以使用rsync或http; 你可以点
+这里 linkgit:git-pull[1] 看一看更詳細的用法。
+
 Git can also be used in a CVS-like mode, with a central repository
 that various users push changes to; see linkgit:git-push[1] and
 linkgit:gitcvs-migration[1].
 
+Git也可以像CVS一样来工作：有一个中心仓库，不同的用户向它推送(push)
+自己所作的修改；你可以看看这里： linkgit:git-push[1] linkgit:gitcvs-migration[1].
+
 
 ### Public git repositories ###
+### 公共Git仓库 ###
 
 Another way to submit changes to a project is to tell the maintainer
 of that project to pull the changes from your repository using
@@ -145,26 +171,36 @@ linkgit:git-pull[1].  This is a way to get
 updates from the "main" repository, but it works just as well in the
 other direction.
 
+
 If you and the maintainer both have accounts on the same machine, then
 you can just pull changes from each other's repositories directly;
 commands that accept repository URLs as arguments will also accept a
 local directory name:
 
+如果你和维护者(maintainer)都在同一台机器上有帐号，那么你们可以互相从对
+方的仓库目录里直接拉(pull)所作的修改；git命令里的仓库地址也可以是本地
+的某个目录名：
+
     $ git clone /path/to/repository
     $ git pull /path/to/other/repository
 
 or an ssh URL:
+也可以是一个ssh地址：
 
     $ git clone ssh://yourhost/~you/repository
 
 For projects with few developers, or for synchronizing a few private
 repositories, this may be all you need.
 
+如果你的项目只有很少几个开发者，或是只需要同步很少的几个私有仓库，
+上面的方法也许够你用的。
+
 However, the more common way to do this is to maintain a separate public
 repository (usually on a different host) for others to pull changes
 from.  This is usually more convenient, and allows you to cleanly
 separate private work in progress from publicly visible work.
 
+然而，
 You will continue to do your day-to-day work in your personal
 repository, but periodically "push" changes from your personal
 repository into your public repository, allowing other developers to
