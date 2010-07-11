@@ -200,13 +200,20 @@ repository (usually on a different host) for others to pull changes
 from.  This is usually more convenient, and allows you to cleanly
 separate private work in progress from publicly visible work.
 
-然而，
+然而，更通用的作法是维护几个不同的公开仓库(public repository).
+这样可以把私人的工作进试和公开仓库清楚的分开。
+
 You will continue to do your day-to-day work in your personal
 repository, but periodically "push" changes from your personal
 repository into your public repository, allowing other developers to
 pull from that repository.  So the flow of changes, in a situation
 where there is one other developer with a public repository, looks
 like this:
+
+你还是每天在你的本地私人仓库里工作，但是会定期的把本地的修改推(push)
+到你的公开仓库中；其它开发者就可以从这个公开仓库来拉(pull)最新的代码。
+如果其它开发者也有他自己的公共仓库，那么他们之间的开发流程就如下图
+所示：
 
                             you push
       your personal repo ------------------> your public repo
@@ -221,19 +228,26 @@ like this:
 
 
 ### Pushing changes to a public repository ###
+### 将修改推到一个公共仓库 ###
 
 Note that exporting via http or git allow other
 maintainers to fetch your latest changes, but they do not allow write
 access.  For this, you will need to update the public repository with the
 latest changes created in your private repository.
 
+
 The simplest way to do this is using linkgit:git-push[1] and ssh; to
 update the remote branch named "master" with the latest state of your
 branch named "master", run
 
+最简单的办法就是用 linkgit:git-push[1] 和ssh; 用你本地的"master"分支
+去更新远程的"master"分支，执行下面的命令:
+
     $ git push ssh://yourserver.com/~you/proj.git master:master
 
 or just
+
+或是:
 
     $ git push ssh://yourserver.com/~you/proj.git master
 
@@ -241,13 +255,16 @@ As with git-fetch, git-push will complain if this does not result in a
 fast forward; see the following section for details on
 handling this case.
 
+
 Note that the target of a "push" is normally a bare repository.  You can also push to a
 repository that has a checked-out working tree, but the working tree
 will not be updated by the push.  This may lead to unexpected results if
 the branch you push to is the currently checked-out branch!
 
+
 As with git-fetch, you may also set up configuration options to
 save typing; so, for example, after
+
 
     $ cat >>.git/config <<EOF
     [remote "public-repo"]
@@ -256,16 +273,25 @@ save typing; so, for example, after
 
 you should be able to perform the above push with just
 
+你可以用下面的命令来代替前面复杂的命令:
+
     $ git push public-repo master
 
 See the explanations of the remote.<name>.url, branch.<name>.remote,
 and remote.<name>.push options in linkgit:git-config[1] for
 details.
 
+你可以点击这里: linkgit:git-config[1]，查看remote.<name>.url, 
+branch.<name>.remote, 和remote.<name>.push等选项的解释.
+
 ### What to do when a push fails ###
+### 当推送代码失败时要怎么办 ###
 
 If a push would not result in a fast forward of the
 remote branch, then it will fail with an error like:
+
+如果推送(push)结果不是"快速向前"(fast forward),那么它
+可能会报像下面一样的错误：
 
     error: remote 'refs/heads/master' is not an ancestor of
     local  'refs/heads/master'.
@@ -274,12 +300,18 @@ remote branch, then it will fail with an error like:
 
 This can happen, for example, if you:
 
+这种情况产生通常由以下的原因产生：
+
 	- use `git-reset --hard` to remove already-published commits, or
+	- 用 `git-reset --hard` 删除了一个已经发布了的一个提交，或是
 	- use `git-commit --amend` to replace already-published commits, or
+	- 用 `git-commit --amend` 去替换一个已经发布的提交，或是
 	- use `git-rebase` to rebase any already-published commits.
+	- 用 `git-rebase`　 
 
 You may force git-push to perform the update anyway by preceding the
 branch name with a plus sign:
+
 
     $ git push ssh://yourserver.com/~you/proj.git +master
 
