@@ -69,7 +69,7 @@ With this, Alice can perform the first operation alone using the
 using:
 
 这样，Alic可以用"git fetch"" 来执行"git pull"前半部分的工作，
-但是它并不会把抓下来的修改合并到当前分支里。
+但是这条命令并不会把抓下来的修改合并到当前分支里。
 
     $ git fetch bob
 
@@ -78,6 +78,7 @@ remote repository shorthand set up with `git remote`, what was
 fetched is stored in a remote tracking branch, in this case
 `bob/master`.  So after this:
 
+我们用`git remote`命令建立了bob的运程仓库的缩写，
 
     $ git log -p master..bob/master
 
@@ -171,6 +172,10 @@ linkgit:git-pull[1].  This is a way to get
 updates from the "main" repository, but it works just as well in the
 other direction.
 
+另外一个提交修改的办法，就是告诉项目的维护者(maintainer)用 linkgit:git-pull[1]
+命令从你的仓库里把修改拉下来。这和从主仓库"里更新代码类似，但是是从
+另外一个方向来更新的。
+
 
 If you and the maintainer both have accounts on the same machine, then
 you can just pull changes from each other's repositories directly;
@@ -235,6 +240,8 @@ maintainers to fetch your latest changes, but they do not allow write
 access.  For this, you will need to update the public repository with the
 latest changes created in your private repository.
 
+通过http或是git协议，其它维护者可以取得(fetch)你最近的修改，但是他们
+没有写权限。这样，这需要将本地私有仓库的最近修改上传公共仓库中。
 
 The simplest way to do this is using linkgit:git-push[1] and ssh; to
 update the remote branch named "master" with the latest state of your
@@ -256,15 +263,24 @@ fast forward; see the following section for details on
 handling this case.
 
 
+
 Note that the target of a "push" is normally a bare repository.  You can also push to a
 repository that has a checked-out working tree, but the working tree
 will not be updated by the push.  This may lead to unexpected results if
 the branch you push to is the currently checked-out branch!
 
+推命令的目地仓库一般是个裸仓库(bare respository). 你也可以推到一个
+有签出工作目录树(checked-out working tree)的仓库，但是工作目录中内
+容不会被推命令所更新。如果你把自己的分支推到一个已签出的分支里，这
+会导致不可预知的后果。
 
+ 
 As with git-fetch, you may also set up configuration options to
 save typing; so, for example, after
 
+在用git-fetch命令时，你可以修改配置参数，让你少打字。
+
+下面这些是例子:
 
     $ cat >>.git/config <<EOF
     [remote "public-repo"]
@@ -303,14 +319,21 @@ This can happen, for example, if you:
 这种情况产生通常由以下的原因产生：
 
 	- use `git-reset --hard` to remove already-published commits, or
+
 	- 用 `git-reset --hard` 删除了一个已经发布了的一个提交，或是
+
 	- use `git-commit --amend` to replace already-published commits, or
+
 	- 用 `git-commit --amend` 去替换一个已经发布的提交，或是
+
 	- use `git-rebase` to rebase any already-published commits.
-	- 用 `git-rebase`　 
+
+	- 用 `git-rebase` 去"衍合"(rebase)一个已经发布的提交.　 
 
 You may force git-push to perform the update anyway by preceding the
 branch name with a plus sign:
+
+你可以强制git-push在上传修改时先更先，只要分支名前面加一个加号。
 
 
     $ git push ssh://yourserver.com/~you/proj.git +master
@@ -318,6 +341,8 @@ branch name with a plus sign:
 Normally whenever a branch head in a public repository is modified, it
 is modified to point to a descendant of the commit that it pointed to
 before.  By forcing a push in this situation, you break that convention.
+
+
 
 Nevertheless, this is a common practice for people that need a simple
 way to publish a work-in-progress patch series, and it is an acceptable
