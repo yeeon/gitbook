@@ -78,7 +78,9 @@ remote repository shorthand set up with `git remote`, what was
 fetched is stored in a remote tracking branch, in this case
 `bob/master`.  So after this:
 
-我们用`git remote`命令建立了bob的运程仓库的缩写，
+我们用`git remote`命令建立了Bob的运程仓库的缩写，用这个(缩写)
+名字我从Bob的那得到所有远程分支的历史记录。在这里远程分支的名
+字就叫`bob/master`.
 
     $ git log -p master..bob/master
 
@@ -136,7 +138,7 @@ Git also keeps a pristine copy of Alice's master branch under the
 name "origin/master":
 
 Git同时也保存了一份最初(pristine)的Alice主分支(master)，在
-“origin/master"下面。
+"rigin/master"下面。
 
     $ git branch -r
       origin/master
@@ -145,7 +147,7 @@ If Bob later decides to work from a different host, he can still
 perform clones and pulls using the ssh protocol:
 
 如果Bob打算在另外一台主机上工作，他可以通过ssh协议来执行"clone"
-和“pull"操作：
+和"pull"操作：
 
     $ git clone alice.org:/home/alice/project myrepo
 
@@ -206,7 +208,7 @@ from.  This is usually more convenient, and allows you to cleanly
 separate private work in progress from publicly visible work.
 
 然而，更通用的作法是维护几个不同的公开仓库(public repository).
-这样可以把私人的工作进试和公开仓库清楚的分开。
+这样可以把每个人的工作进度和公开仓库清楚的分开。
 
 You will continue to do your day-to-day work in your personal
 repository, but periodically "push" changes from your personal
@@ -240,15 +242,17 @@ maintainers to fetch your latest changes, but they do not allow write
 access.  For this, you will need to update the public repository with the
 latest changes created in your private repository.
 
-通过http或是git协议，其它维护者可以取得(fetch)你最近的修改，但是他们
+通过http或是git协议，其它维护者可以抓取(fetch)你最近的修改，但是他们
 没有写权限。这样，这需要将本地私有仓库的最近修改上传公共仓库中。
+
+译者注: 通过http的WebDav协议是可以有写权限的,也有人配置了git over http.
 
 The simplest way to do this is using linkgit:git-push[1] and ssh; to
 update the remote branch named "master" with the latest state of your
 branch named "master", run
 
-最简单的办法就是用 linkgit:git-push[1] 和ssh; 用你本地的"master"分支
-去更新远程的"master"分支，执行下面的命令:
+最简单的办法就是用 linkgit:git-push[1]命令 和ssh协议; 用你本地的"master"
+分支去更新远程的"master"分支，执行下面的命令:
 
     $ git push ssh://yourserver.com/~you/proj.git master:master
 
@@ -262,15 +266,16 @@ As with git-fetch, git-push will complain if this does not result in a
 fast forward; see the following section for details on
 handling this case.
 
-
+和git-fetc,命令一样giit-push如是命令的执行结果不是"快速向前"(fast forward)
+就会报错; 下面的章节会讲如何处理这种情况.
 
 Note that the target of a "push" is normally a bare repository.  You can also push to a
 repository that has a checked-out working tree, but the working tree
 will not be updated by the push.  This may lead to unexpected results if
 the branch you push to is the currently checked-out branch!
 
-推命令的目地仓库一般是个裸仓库(bare respository). 你也可以推到一个
-有签出工作目录树(checked-out working tree)的仓库，但是工作目录中内
+推(push)命令的目地仓库一般是个裸仓库(bare respository). 你也可以推到一
+个签出工作目录树(checked-out working tree)的仓库，但是工作目录中内
 容不会被推命令所更新。如果你把自己的分支推到一个已签出的分支里，这
 会导致不可预知的后果。
 
@@ -278,7 +283,7 @@ the branch you push to is the currently checked-out branch!
 As with git-fetch, you may also set up configuration options to
 save typing; so, for example, after
 
-在用git-fetch命令时，你可以修改配置参数，让你少打字。
+在用git-fetch命令时，你也可以修改配置参数，让你少打字:)。
 
 下面这些是例子:
 
