@@ -1,27 +1,17 @@
-## Distributed Workflows ##
 ## 分布式的工作流 ##
-
-Suppose that Alice has started a new project with a git repository in
-/home/alice/project, and that Bob, who has a home directory on the
-same machine, wants to contribute.
 
 假设Alice现在开始了一个新项目，在/home/alice/project建了一个新的git
 仓库(repository)；另一个叫Bob的工作目录也在同一台机器，他要提交代码。
 
-Bob begins with:
 Bob 执行了这样的命令:
 
     $ git clone /home/alice/project myrepo
 
-This creates a new directory "myrepo" containing a clone of Alice's
-repository.  The clone is on an equal footing with the original
-project, possessing its own copy of the original project's history.
 
 这就建了一个新的叫"myrepo"的目录，这个目录里包含了一份Alice的仓库的
 克隆(clone). 这份克隆和原始的项目一模一样，并且拥有原始项目的历史记
 录。
 
-Bob then makes some changes and commits them:
 
 Bob 做了一些修改并且提交(commit)它们:
 
@@ -29,8 +19,6 @@ Bob 做了一些修改并且提交(commit)它们:
     $ git commit -a
     (repeat as necessary)
 
-When he's ready, he tells Alice to pull changes from the repository
-at /home/bob/myrepo.  She does this with:
 
 当他准备好了，他告诉Alice从仓库/home/bob/myrepo中把他的个修改给拉
 (pull)下来。她执行了下面几条命令:
@@ -38,45 +26,26 @@ at /home/bob/myrepo.  She does this with:
     $ cd /home/alice/project
     $ git pull /home/bob/myrepo master
 
-This merges the changes from Bob's "master" branch into Alice's
-current branch.  If Alice has made her own changes in the meantime,
-then she may need to manually fix any conflicts.  (Note that the
-"master" argument in the above command is actually unnecessary, as it
-is the default.)
 
 这就把Bob的主(master)分支合并到了Alice的当前分支里了。如果Alice在
 Bob修改文件内容的同时也做了修改的话，她可能需要手工去修复冲突.
 (注意："master"参数在上面的命令中并不一定是必须的，因为这是一个
 默认参数)
 
-The "pull" command thus performs two operations: it fetches changes
-from a remote branch, then merges them into the current branch.
 
 git pull命令执行两个操作: 它从远程分支(remote branch)抓取修改
 的内容，然后把它合并进当前的分支。
 
-When you are working in a small closely knit group, it is not
-unusual to interact with the same repository over and over
-again.  By defining 'remote' repository shorthand, you can make
-it easier:
 
 如果你要经常操作远程分支(remote branch),你可以定义它们的缩写:
 
     $ git remote add bob /home/bob/myrepo
 
-With this, Alice can perform the first operation alone using the
-"git fetch" command without merging them with her own branch,
-using:
 
 这样，Alic可以用"git fetch"" 来执行"git pull"前半部分的工作，
 但是这条命令并不会把抓下来的修改合并到当前分支里。
 
     $ git fetch bob
-
-Unlike the longhand form, when Alice fetches from Bob using a
-remote repository shorthand set up with `git remote`, what was
-fetched is stored in a remote tracking branch, in this case
-`bob/master`.  So after this:
 
 我们用`git remote`命令建立了Bob的运程仓库的缩写，用这个(缩写)
 名字我从Bob的那得到所有远程分支的历史记录。在这里远程分支的名
@@ -84,41 +53,27 @@ fetched is stored in a remote tracking branch, in this case
 
     $ git log -p master..bob/master
 
-shows a list of all the changes that Bob made since he branched from
-Alice's master branch.
 
 上面的命令把Bob从Alice的主分支(master)中签出后所做的修改全部显示出来。
 
-After examining those changes, Alice
-could merge the changes into her master branch:
 
 当检查完修改后,Alice就可以把修改合并到她的主分支中。
 
     $ git merge bob/master
 
-This `merge` can also be done by 'pulling from her own remote
-tracking branch', like this:
-
 这种合并(merge)也可以用pull来完成，就像下面的命令一样：
 
     $ git pull . remotes/bob/master
 
-Note that git pull always merges into the current branch,
-regardless of what else is given on the command line.
 
 注意：git pull 会把远程分支合并进当前的分支里，而不管你在命令
 行里指定什么。
 
-Later, Bob can update his repo with Alice's latest changes using
 
 其后，Bob可以更新它的本地仓库--把Alice做的修改拉过来(pull):
 
     $ git pull
 
-Note that he doesn't need to give the path to Alice's repository;
-when Bob cloned Alice's repository, git stored the location of her
-repository in the repository configuration, and that location is
-used for pulls:
 
 如果Bob从Alice的仓库克隆(clone)，那么他就不需要指定Alice仓库的地
 址；因为Git把Alice仓库的地址存储到Bob的仓库配库文件，这个地址就是
@@ -127,15 +82,10 @@ used for pulls:
     $ git config --get remote.origin.url
     /home/alice/project
 
-(The complete configuration created by git-clone is visible using
-"git config -l", and the linkgit:git-config[1] man page
-explains the meaning of each option.)
 
 (如果要查看git clone创建的所有配置参数，可以使用"git config -l",
 linkgit:git-config[1] 的帮助文件里解释了每个参数的含义.)
 
-Git also keeps a pristine copy of Alice's master branch under the
-name "origin/master":
 
 Git同时也保存了一份最初(pristine)的Alice主分支(master)，在
 "rigin/master"下面。
@@ -143,46 +93,26 @@ Git同时也保存了一份最初(pristine)的Alice主分支(master)，在
     $ git branch -r
       origin/master
 
-If Bob later decides to work from a different host, he can still
-perform clones and pulls using the ssh protocol:
 
 如果Bob打算在另外一台主机上工作，他可以通过ssh协议来执行"clone"
 和"pull"操作：
 
     $ git clone alice.org:/home/alice/project myrepo
 
-Alternatively, git has a native protocol, or can use rsync or http;
-see linkgit:git-pull[1] for details.
 
 git有他自带的协议(native protocol),还可以使用rsync或http; 你可以点
 这里 linkgit:git-pull[1] 看一看更詳細的用法。
 
-Git can also be used in a CVS-like mode, with a central repository
-that various users push changes to; see linkgit:git-push[1] and
-linkgit:gitcvs-migration[1].
 
 Git也可以像CVS一样来工作：有一个中心仓库，不同的用户向它推送(push)
 自己所作的修改；你可以看看这里： linkgit:git-push[1] linkgit:gitcvs-migration[1].
 
 
-### Public git repositories ###
 ### 公共Git仓库 ###
-
-Another way to submit changes to a project is to tell the maintainer
-of that project to pull the changes from your repository using
-linkgit:git-pull[1].  This is a way to get
-updates from the "main" repository, but it works just as well in the
-other direction.
 
 另外一个提交修改的办法，就是告诉项目的维护者(maintainer)用 linkgit:git-pull[1]
 命令从你的仓库里把修改拉下来。这和从主仓库"里更新代码类似，但是是从
 另外一个方向来更新的。
-
-
-If you and the maintainer both have accounts on the same machine, then
-you can just pull changes from each other's repositories directly;
-commands that accept repository URLs as arguments will also accept a
-local directory name:
 
 如果你和维护者(maintainer)都在同一台机器上有帐号，那么你们可以互相从对
 方的仓库目录里直接拉(pull)所作的修改；git命令里的仓库地址也可以是本地
@@ -191,31 +121,18 @@ local directory name:
     $ git clone /path/to/repository
     $ git pull /path/to/other/repository
 
-or an ssh URL:
+
 也可以是一个ssh地址：
 
     $ git clone ssh://yourhost/~you/repository
 
-For projects with few developers, or for synchronizing a few private
-repositories, this may be all you need.
-
 如果你的项目只有很少几个开发者，或是只需要同步很少的几个私有仓库，
 上面的方法也许够你用的。
 
-However, the more common way to do this is to maintain a separate public
-repository (usually on a different host) for others to pull changes
-from.  This is usually more convenient, and allows you to cleanly
-separate private work in progress from publicly visible work.
 
 然而，更通用的作法是维护几个不同的公开仓库(public repository).
 这样可以把每个人的工作进度和公开仓库清楚的分开。
 
-You will continue to do your day-to-day work in your personal
-repository, but periodically "push" changes from your personal
-repository into your public repository, allowing other developers to
-pull from that repository.  So the flow of changes, in a situation
-where there is one other developer with a public repository, looks
-like this:
 
 你还是每天在你的本地私人仓库里工作，但是会定期的把本地的修改推(push)
 到你的公开仓库中；其它开发者就可以从这个公开仓库来拉(pull)最新的代码。
@@ -234,22 +151,14 @@ like this:
       
 
 
-### Pushing changes to a public repository ###
 ### 将修改推到一个公共仓库 ###
 
-Note that exporting via http or git allow other
-maintainers to fetch your latest changes, but they do not allow write
-access.  For this, you will need to update the public repository with the
-latest changes created in your private repository.
 
 通过http或是git协议，其它维护者可以抓取(fetch)你最近的修改，但是他们
 没有写权限。这样，这需要将本地私有仓库的最近修改上传公共仓库中。
 
 译者注: 通过http的WebDav协议是可以有写权限的,也有人配置了git over http.
 
-The simplest way to do this is using linkgit:git-push[1] and ssh; to
-update the remote branch named "master" with the latest state of your
-branch named "master", run
 
 最简单的办法就是用 linkgit:git-push[1]命令 和ssh协议; 用你本地的"master"
 分支去更新远程的"master"分支，执行下面的命令:
@@ -262,26 +171,15 @@ or just
 
     $ git push ssh://yourserver.com/~you/proj.git master
 
-As with git-fetch, git-push will complain if this does not result in a
-fast forward; see the following section for details on
-handling this case.
-
 和git-fetc,命令一样giit-push如是命令的执行结果不是"快速向前"(fast forward)
 就会报错; 下面的章节会讲如何处理这种情况.
 
-Note that the target of a "push" is normally a bare repository.  You can also push to a
-repository that has a checked-out working tree, but the working tree
-will not be updated by the push.  This may lead to unexpected results if
-the branch you push to is the currently checked-out branch!
 
 推(push)命令的目地仓库一般是个裸仓库(bare respository). 你也可以推到一
 个签出工作目录树(checked-out working tree)的仓库，但是工作目录中内
 容不会被推命令所更新。如果你把自己的分支推到一个已签出的分支里，这
 会导致不可预知的后果。
 
- 
-As with git-fetch, you may also set up configuration options to
-save typing; so, for example, after
 
 在用git-fetch命令时，你也可以修改配置参数，让你少打字:)。
 
@@ -292,24 +190,18 @@ save typing; so, for example, after
     	url = ssh://yourserver.com/~you/proj.git
     EOF
 
-you should be able to perform the above push with just
 
 你可以用下面的命令来代替前面复杂的命令:
 
     $ git push public-repo master
 
-See the explanations of the remote.<name>.url, branch.<name>.remote,
-and remote.<name>.push options in linkgit:git-config[1] for
-details.
 
 你可以点击这里: linkgit:git-config[1]，查看remote.<name>.url, 
 branch.<name>.remote, 和remote.<name>.push等选项的解释.
 
-### What to do when a push fails ###
+
 ### 当推送代码失败时要怎么办 ###
 
-If a push would not result in a fast forward of the
-remote branch, then it will fail with an error like:
 
 如果推送(push)结果不是"快速向前"(fast forward),那么它
 可能会报像下面一样的错误：
@@ -319,24 +211,16 @@ remote branch, then it will fail with an error like:
     Maybe you are not up-to-date and need to pull first?
     error: failed to push to 'ssh://yourserver.com/~you/proj.git'
 
-This can happen, for example, if you:
 
 这种情况产生通常由以下的原因产生：
 
-	- use `git-reset --hard` to remove already-published commits, or
 
 	- 用 `git-reset --hard` 删除了一个已经发布了的一个提交，或是
 
-	- use `git-commit --amend` to replace already-published commits, or
-
 	- 用 `git-commit --amend` 去替换一个已经发布的提交，或是
-
-	- use `git-rebase` to rebase any already-published commits.
 
 	- 用 `git-rebase` 去"衍合"(rebase)一个已经发布的提交.　 
 
-You may force git-push to perform the update anyway by preceding the
-branch name with a plus sign:
 
 你可以强制git-push在上传修改时先更先，只要分支名前面加一个加号。
 
@@ -346,7 +230,6 @@ branch name with a plus sign:
 Normally whenever a branch head in a public repository is modified, it
 is modified to point to a descendant of the commit that it pointed to
 before.  By forcing a push in this situation, you break that convention.
-
 
 
 Nevertheless, this is a common practice for people that need a simple
