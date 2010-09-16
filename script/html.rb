@@ -91,12 +91,15 @@ task :html => :merge do
       chlinks = []
       chapters = section.split('<h2>')
       chapters.shift
+      subcount = 0
       chapters.each do |chapter|
+        subcount += 1
         chtitle, chapter = chapter.split('</h2>')
         next if !chapter
         # extract chapter title
         puts "\t" + chtitle.strip
-        filename = count.to_s + '_' + chtitle.strip.downcase.gsub(' ', '_') + '.html'
+        # filename = count.to_s + '_' + chtitle.strip.downcase.gsub(' ', '_') + '.html'
+        filename = count.to_s + '_' + subcount.to_s + '.html'
         body = "<h2>#{chtitle}</h2>" + chapter
         body = do_replacements(body, :html)
         chlinks << [chtitle.strip, filename, body.size]
