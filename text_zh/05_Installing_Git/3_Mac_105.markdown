@@ -1,14 +1,6 @@
 ### Mac 10.5 ###
-### Mac 10.5 ###
 
-With Leopard, you can also install via MacPorts, but here you have the
-additional option of using a nice installer, which you can download from here:
-[Git OSX
-Installer](http://code.google.com/p/git-osx-installer/downloads/list?can=3)
-
-在Leopard系统下，你也可以通过MacPorts来安装，但是你有一个新的选项：using a nice installer, 你可以从这里来下载：http://code.google.com/p/git-osx-installer/downloads/list?can=3
-
-If you prefer to install it from source, these guides may be particularly helpful to you :
+在Leopard系统下，你也可以通过MacPorts来安装,但是你有一个新的选项:"一个漂亮的安装包", 你可以从这里来下载:[Git OSX Installer](http://code.google.com/p/git-osx-installer/downloads/list?can=3)
 
 如果你想从源代码开始安装，我希望下面些资料能对你有帮助:
 
