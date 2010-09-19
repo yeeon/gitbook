@@ -1,89 +1,73 @@
-## Basic Branching and Merging ##
+## 分支与合并@基础 ##
 
-A single git repository can maintain multiple branches of
-development.  To create a new branch named "experimental", use
+一个Git仓库可以维护很多开发分支。现在我们来创建一个新的叫”experimental”的分支：
 
     $ git branch experimental
 
-If you now run
+如果你运行下面这条命令：
 
     $ git branch
 
-you'll get a list of all existing branches:
+你会得到当前仓库中存在的所有分支列表：
 
       experimental
     * master
 
-The "experimental" branch is the one you just created, and the
-"master" branch is a default branch that was created for you
-automatically.  The asterisk marks the branch you are currently on;
-type
+“experimental” 分支是你刚才创建的，“master”分支是Git系统默认创建的主分支。星号(“*”)标识了你当工作在哪个分支下，输入：
 
     $ git checkout experimental
 
-to switch to the experimental branch.  Now edit a file, commit the
-change, and switch back to the master branch:
+切换到”experimental”分支，先编辑里面的一个文件，再提交(commit)改动，最后切换回 “master”分支。
 
     (edit file)
     $ git commit -a
     $ git checkout master
 
-Check that the change you made is no longer visible, since it was
-made on the experimental branch and you're back on the master branch.
 
-You can make a different change on the master branch:
+你现在可以看一下你原来在“experimental”分支下所作的修改还在不在；因为你现在切换回了“master”分支，所以原来那些修改就不存在了。
+
+你现在可以在“master”分支下再作一些不同的修改:
 
     (edit file)
     $ git commit -a
 
-at this point the two branches have diverged, with different changes
-made in each.  To merge the changes made in experimental into master, run
+
+这时，两个分支就有了各自不同的修改(diverged)；我们可以通过下面的命令来合并“experimental”和“master”两个分支:
 
     $ git merge experimental
 
-If the changes don't conflict, you're done.  If there are conflicts,
-markers will be left in the problematic files showing the conflict;
+如果这个两个分支间的修改没有冲突(conflict), 那么合并就完成了。如有有冲突，输入下面的命令就可以查看当前有哪些文件产生了冲突:
 
     $ git diff
 
-will show this.  Once you've edited the files to resolve the
-conflicts,
+当你编辑了有冲突的文件，解决了冲突后就可以提交了：
 
     $ git commit -a
 
-will commit the result of the merge. Finally,
+提交(commit)了合并的内容后就可查看一下:
 
     $ gitk
 
-will show a nice graphical representation of the resulting history.
 
-At this point you could delete the experimental branch with
+执行了gitk后会有一个很漂亮的图形的显示项目的历史。
+
+这时你就可以删除掉你的 “experimental” 分支了(如果愿意)：
 
     $ git branch -d experimental
 
-This command ensures that the changes in the experimental branch are
-already in the current branch.
-
-If you develop on a branch crazy-idea, then regret it, you can always
-delete the branch with
+git branch -d只能删除那些已经被当前分支的合并的分支. 如果你要强制删除某个分支的话就用git branch –D；下面假设你要强制删除一个叫”crazy-idea”的分支：
 
     $ git branch -D crazy-idea
-
-Branches are cheap and easy, so this is a good way to try something
-out.
 
 分支是很轻量级且容易的，这样就很容易来尝试它。
 
 ### 如何合并 ###
 
-你可以用下面的面的命令来合并两个分离的分支：
-linkgit:git-merge[1]:
+你可以用下面的面的命令来合并两个分离的分支：linkgit:git-merge[1]:
 
     $ git merge branchname
 
-这个命令把分支"branchname"合并到了当前分支里面。如有冲突(冲突--
-同一个文件在远程分支和本地分支里按不同的方式被修改了）；那么命令
-的执行输出就像下面一样
+这个命令把分支"branchname"合并到了当前分支里面。如有冲突(冲突--同一个文件在远程分支和本地分支里按不同的方式被修改了）；那么命令的执行输出就像下面一样
 
     $ git merge next
      100% (4/4) done
@@ -95,7 +79,6 @@ linkgit:git-merge[1]:
 加到索引(index)中去，用git commit命令来提交，就像平时修改了一个文件
 一样。
 
-
 如果你用gitk来查看commit的结果，你会看到它有两个父分支：一个指向当前
 的分支，另外一个指向刚才合并进来的分支。
 
@@ -104,14 +87,12 @@ linkgit:git-merge[1]:
 如果执行自动合并没有成功的话，git会在索引和工作树里设置一个特殊的状态，
 提示你如何解决合并中出现的冲突。
 
-有冲突(conflicts)的文件会保存在索引中，除非你解决了问题了并且更新了索引
-执行 linkgit:git-commit[1]都会失败:
+有冲突(conflicts)的文件会保存在索引中，除非你解决了问题了并且更新了索引，否则执行 linkgit:git-commit[1]都会失败:
 
     $ git commit
     file.txt: needs merge
 
-如果执行 linkgit:git-status[1] 会显示这些文件没有合并(unmerged),这些有冲
-突的文件里面会添加像下面的冲突标识符:
+如果执行 linkgit:git-status[1] 会显示这些文件没有合并(unmerged),这些有冲突的文件里面会添加像下面的冲突标识符:
 
     <<<<<<< HEAD:file.txt
     Hello world
@@ -124,16 +105,14 @@ linkgit:git-merge[1]:
     $ git add file.txt
     $ git commit
 
-注意：提交注释里已经有一些关合并的信息了，通常是用这些默认信息，但是
-你可以添加一些你想要的注释。
+注意：提交注释里已经有一些关合并的信息了，通常是用这些默认信息，但是你可以添加一些你想要的注释。
 
 上面这些就是你要做一个简单合并所要知道的，但是git提供更多的一些信息来
 帮助解决冲突。
 
 ### 撒销一个合并 ###
 
-如果你觉得你合并后的状态是一团乱麻，想把当前的修改都放弃，你可以用下
-面的命令回到合并之前的状态：
+如果你觉得你合并后的状态是一团乱麻，想把当前的修改都放弃，你可以用下面的命令回到合并之前的状态：
 
     $ git reset --hard HEAD
 
@@ -149,8 +128,6 @@ linkgit:git-merge[1]:
 还有一种需要特殊对待的情况，在前面没有提到。通常，一个合并会产生一个合并提交(commit),
 把两个父分支里的每一行内容都合并进来。
 
-但是，如果当前的分支和另一个分支没有内容上的差异，就是说当前分的每一个提交(commit)
-都已经存在另一个分支里，git 就会执行一个“快速向前"(fast forward)操作；git 不创建任
-何新的提交(commit),只是将当前分支指向合并进来的分支。
+但是，如果当前的分支和另一个分支没有内容上的差异，就是说当前分支的每一个提交(commit)都已经存在另一个分支里了，git 就会执行一个“快速向前"(fast forward)操作；git 不创建任何新的提交(commit),只是将当前分支指向合并进来的分支。
 
 [gitcast:c6-branch-merge]("GitCast #6: Branching and Merging")
