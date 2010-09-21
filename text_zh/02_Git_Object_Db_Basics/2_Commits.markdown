@@ -63,15 +63,9 @@ A commit is usually created by linkgit:git-commit[1], which creates a
 commit whose parent is normally the current HEAD, and whose tree is
 taken from the content currently stored in the index.
 
-### The Object Model ###
 ### 对象模型 ###
 
-So, now that we've looked at the 3 main object types (blob, tree and commit), 
-let's take a quick look at how they all fit together.
-
 现在我们已经了解了3种主要对象类型(blob, tree 和 commit), 好现在就让我们大概了解一下它们怎么组合到一起的.
-
-If we had a simple project with the following directory structure:
 
 如果我们一个小项目, 有如下的目录结构:
 
@@ -84,15 +78,10 @@ If we had a simple project with the following directory structure:
         `-- mylib.rb
 
     2 directories, 3 files
-    2 个目录, 3 个文件
 
-And we committed this to a Git repository, it would be represented like this:
-如果我们把它提交(commit)到一个Git仓库中, 它们也许看起来就如下图:
+
+如果我们把它提交(commit)到一个Git仓库中, 在Git中它们也许看起来就如下图:
 
 [fig:objects-example]
-
-You can see that we have created a **tree** object for each directory (including the root)
-and a **blob** object for each file.  Then we have a **commit** object to point
-to the root, so we can track what our project looked like when it was committed.
 
 你可以看到: 每个目录都创建了 **tree对象** (包括根目录), 每个文件都创建了一个对应的 **blob对象** . 最后有一个 **commit对象** 来指向根tree对象(root of trees), 这样我们就可以追踪项目每一项提交内容.
