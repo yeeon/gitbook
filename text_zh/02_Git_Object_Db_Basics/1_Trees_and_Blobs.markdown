@@ -1,7 +1,5 @@
-### Blob Object ###
 ### Blob对象 ###
 
-A blob generally stores the contents of a file.
 一个blob通常用来存储文件的内容.
 
 [fig:object-blob]
@@ -9,7 +7,7 @@ A blob generally stores the contents of a file.
 You can use linkgit:git-show[1] to examine the contents of any blob. 
 Assuming we have the SHA for a blob, we can examine its contents like this:
 
-你可以使用Git命令来查看一个blob对象里的内容。假设我们现在有一个Blob对象的SHA1哈希值，我们可以通过下面的的命令来查看内容：
+你可以使用linkgit:git-show[1]命令来查看一个blob对象里的内容。假设我们现在有一个Blob对象的SHA1哈希值，我们可以通过下面的的命令来查看内容：
 
     $ git show 6ff87c4664
 
@@ -21,8 +19,7 @@ Assuming we have the SHA for a blob, we can examine its contents like this:
 A "blob" object is nothing but a chunk of binary data.  It doesn't refer
 to anything else or have attributes of any kind, not even a file name.
 
-一个blob对象就一块二进制数据，它没有任何其它属性，甚至连文件名都没有。
-
+一个blob对象就是一块二进制数据，它没有任何其它属性，甚至连文件名都没有。
 
 
 
@@ -34,11 +31,8 @@ renaming a file does not change the object that file is associated with.
 
 因为blob对象全部都是数据，如两个文件在一个目录树（或是一个版本仓库）中有同样的数据内容，那么它们将会共享同一个blob对象。Blob对象和其所对应的文件所在路径、文件名是否改被更改都没完没有关系。
 
-### Tree Object ###
-### Tree 对象 ###
 
-A tree is a simple object that has a bunch of pointers to blobs and other
-trees - it generally represents the contents of a directory or subdirectory.
+### Tree 对象 ###
 
 一个tree对象有一串(bunch)指向blob对象或是其它tree对象的指针，它一般用来来表示内容之间的目录层次关系。
 
@@ -48,7 +42,7 @@ The ever-versatile linkgit:git-show[1] command can also be used to
 examine tree objects, but linkgit:git-ls-tree[1] will give you more
 details.  Assuming we have the SHA for a tree, we can examine it like this:
 
-git show命令还可以用来查看tree对象，但是git ls-tree能让你看到更多的细节。如果我们有一个tree对象的SHA1哈希值，我们可以像下面一样来查看它：
+linkgit:git-show[1]命令还可以用来查看tree对象，但是linkgit:git-ls-tree[1]能让你看到更多的细节。如果我们有一个tree对象的SHA1哈希值，我们可以像下面一样来查看它：
 
 
     $ git ls-tree fb3a8bdd0ce
@@ -77,12 +71,13 @@ This allows git to quickly determine the differences between two related tree
 objects, since it can ignore any entries with identical object names.
 
 
-一个tree对象指向(reference)，可以是一个包含文件内容的blob对象，也可以是其它包含某个子目录内容的其它tree对象。Tree对象、blob对象和其它所有的对象一样，都用其内容的SHA1哈希值来命名的；只有当两个tree对象的内容完全相同（包括其所指向所有子对象）时，它的名字才会一样，反之亦然。这样就能让Git仅仅通过比较两个相关的tree对象的名字是否相同，来快速的判断其内容是否不同。
+一个tree对象可以指向(reference)：一个包含文件内容的blob对象，也可以是其它包含某个子目录内容的其它tree对象。Tree对象、blob对象和其它所有的对象一样，都用其内容的SHA1哈希值来命名的；只有当两个tree对象的内容完全相同（包括其所指向所有子对象）时，它的名字才会一样，反之亦然。这样就能让Git仅仅通过比较两个相关的tree对象的名字是否相同，来快速的判断其内容是否不同。
 
 
 (Note: in the presence of submodules, trees may also have commits as
 entries.  See the **Submodules** section.)
 
+(注意：在submodules里，trees对象也可以指向commits对象. 请参见 **Submodules** 章节)
 
 Note that the files all have mode 644 or 755: git actually only pays
 attention to the executable bit.
