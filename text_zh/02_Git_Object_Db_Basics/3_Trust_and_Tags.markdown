@@ -1,5 +1,5 @@
-
 ### Tag Object ###
+### 标签对象 ###
 
 [fig:object-tag]
 
@@ -7,6 +7,8 @@ A tag object contains an object name (called simply 'object'), object type,
 tag name, the name of the person ("tagger") who created the tag, and a
 message, which may contain a signature, as can be seen using
 linkgit:git-cat-file[1]:
+
+一个标签对象包一个对象名(**), 对象类型, 标签名, 标签创建人的名字("tagger"), 还有一条可能包含有签名(signature)的消息. 你可以用 linkgit:git-cat-file[1] 命令来查看这些信息:
 
     $ git cat-file tag v1.5.0
     object 437b1b20df4b356c9342dac8d38849f24ef44f27
@@ -27,3 +29,5 @@ See the linkgit:git-tag[1] command to learn how to create and verify tag
 objects.  (Note that linkgit:git-tag[1] can also be used to create
 "lightweight tags", which are not tag objects at all, but just simple
 references whose names begin with "refs/tags/").
+
+点击 linkgit:git-tag[1], 可以了解如何创建和验证标签对象. (注意: linkgit:git-tag[1] 同样也可以用来创建 "轻量级的标签"(lightweight tags), 但它们并不是标签对象, 而只一些以 "refs/tags/" 开头的引用).
