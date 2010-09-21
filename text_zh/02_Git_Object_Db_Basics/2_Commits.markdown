@@ -1,13 +1,19 @@
 ### Commit Object ###
+### Commit对象 ###
 
 The "commit" object links a physical state of a tree with a description
 of how we got there and why. 
+
+"commit对象"指向一个"tree对象", 并且带有相关的描述信息.
 
 [fig:object-commit]
 
 You can use the --pretty=raw option to
 linkgit:git-show[1] or linkgit:git-log[1] to examine your favorite
 commit:
+
+你可以用 --pretty=raw 参数来配合 linkgit:git-show[1] 或 linkgit:git-log[1] 去查看某个提交(commit):
+
 
     $ git show -s --pretty=raw 2be7fcb476
     commit 2be7fcb4764f2dbcee52635b91fedb1b3dcf7ab4
@@ -22,8 +28,13 @@ commit:
 
 As you can see, a commit is defined by:
 
+你可以看到, 一个提交(commit)由以下的部分组成:
+
 - a **tree**: The SHA1 name of a tree object (as defined below), representing
   the contents of a directory at a certain point in time.
+
+- 一个 **tree**: 
+
 - **parent(s)**: The SHA1 name of some number of commits which represent the
   immediately previous step(s) in the history of the project.  The
   example above has one parent; merge commits may have more than
@@ -31,6 +42,7 @@ As you can see, a commit is defined by:
   represents the initial revision of a project.  Each project must have
   at least one root.  A project can also have multiple roots, though
   that isn't common (or necessarily a good idea).
+
 - an **author**: The name of the person responsible for this change, together
   with its date.
 - a **committer**: The name of the person who actually created the commit,
@@ -52,11 +64,16 @@ commit whose parent is normally the current HEAD, and whose tree is
 taken from the content currently stored in the index.
 
 ### The Object Model ###
+### 对象模型 ###
 
 So, now that we've looked at the 3 main object types (blob, tree and commit), 
 let's take a quick look at how they all fit together.
 
+现在我们已经了解了3种主要对象类型(blob, tree 和 commit), 好现在就让我们大概了解一下它们怎么组合到一起的.
+
 If we had a simple project with the following directory structure:
+
+如果我们一个小项目, 有如下的目录结构:
 
     $>tree
     .
@@ -67,11 +84,15 @@ If we had a simple project with the following directory structure:
         `-- mylib.rb
 
     2 directories, 3 files
+    2 个目录, 3 个文件
 
 And we committed this to a Git repository, it would be represented like this:
+如果我们把它提交(commit)到一个Git仓库中, 它们也许看起来就如下图:
 
 [fig:objects-example]
 
 You can see that we have created a **tree** object for each directory (including the root)
 and a **blob** object for each file.  Then we have a **commit** object to point
 to the root, so we can track what our project looked like when it was committed.
+
+你可以看到: 每个目录都创建了 **tree对象** (包括根目录), 每个文件都创建了一个对应的 **blob对象** . 最后有一个 **commit对象** 来指向根tree对象(root of trees), 这样我们就可以追踪项目每一项提交内容.
