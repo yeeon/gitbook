@@ -1,19 +1,10 @@
-### Commit Object ###
 ### Commit对象 ###
-
-The "commit" object links a physical state of a tree with a description
-of how we got there and why. 
 
 "commit对象"指向一个"tree对象", 并且带有相关的描述信息.
 
 [fig:object-commit]
 
-You can use the --pretty=raw option to
-linkgit:git-show[1] or linkgit:git-log[1] to examine your favorite
-commit:
-
 你可以用 --pretty=raw 参数来配合 linkgit:git-show[1] 或 linkgit:git-log[1] 去查看某个提交(commit):
-
 
     $ git show -s --pretty=raw 2be7fcb476
     commit 2be7fcb4764f2dbcee52635b91fedb1b3dcf7ab4
@@ -26,42 +17,24 @@ commit:
 
         Signed-off-by: Junio C Hamano <gitster@pobox.com>
 
-As you can see, a commit is defined by:
 
 你可以看到, 一个提交(commit)由以下的部分组成:
 
-- a **tree**: The SHA1 name of a tree object (as defined below), representing
-  the contents of a directory at a certain point in time.
+- 一个 **tree**　对象: tree对象的SHA1签名, 代表着目录在某一时间点的内容. 
 
-- 一个 **tree**: 
+- **父对象** (parent(s)): 提交(commit)的SHA1签名代表着当前提交前一步的项目历史. 上面的那个例子就只有一个父对象; 合并的提交(merge commits)可能会有不只一个父对象.  如果一个提交没有父对象, 那么我们就叫它“根提交"(root commit), 它就代表着项目最初的一个版本(revision). 每个项目必须有至少有一个“根提交"(root commit). 一个项目可能有多个"根提交“，虽然这并不常见(这不是好的作法).
 
-- **parent(s)**: The SHA1 name of some number of commits which represent the
-  immediately previous step(s) in the history of the project.  The
-  example above has one parent; merge commits may have more than
-  one.  A commit with no parents is called a "root" commit, and
-  represents the initial revision of a project.  Each project must have
-  at least one root.  A project can also have multiple roots, though
-  that isn't common (or necessarily a good idea).
+- **作者** : 做了此次修改的人的名字,　还有修改日期.
 
-- an **author**: The name of the person responsible for this change, together
-  with its date.
-- a **committer**: The name of the person who actually created the commit,
-  with the date it was done.  This may be different from the author; for
-  example, if the author wrote a patch and emailed it to another person who
-  used the patch to create the commit.
-- a **comment** describing this commit.
+- **提交者**（committer): 实际创建提交(commit)的人的名字, 同时也带有提交日期. TA可能会和作者不是同一个人; 例如作者写一个补丁(patch)并把它用邮件发给提交者, 由他来创建提交(commit).
 
-Note that a commit does not itself contain any information about what
-actually changed; all changes are calculated by comparing the contents
-of the tree referred to by this commit with the trees associated with
-its parents.  In particular, git does not attempt to record file renames
-explicitly, though it can identify cases where the existence of the same
-file data at changing paths suggests a rename.  (See, for example, the
--M option to linkgit:git-diff[1]).
+－**注释** 用来描述此次提交.
 
-A commit is usually created by linkgit:git-commit[1], which creates a
-commit whose parent is normally the current HEAD, and whose tree is
-taken from the content currently stored in the index.
+
+注意: 一个提交(commit)本身并没有包括任何信息来说明其做了哪些修改; 所有的修改(changes)都是通过与父提交(parents)的内容比较而得出的. 值得一提的是, 尽管git可以检测到文件内容不变而路径改变的情况, 但是它不会去显式(explicitly)的记录文件的更名操作.　(你可以看一下 linkgit:git-diff[1] 的 -M　参数的用法)
+
+一般用 linkgit:git-commit[1] 来创建一个提交(commit), 这个提交(commit)的父对象一般是当前分支(current HEAD),　同时把存储在当前索引(index)的内容全部提交.
+
 
 ### 对象模型 ###
 
