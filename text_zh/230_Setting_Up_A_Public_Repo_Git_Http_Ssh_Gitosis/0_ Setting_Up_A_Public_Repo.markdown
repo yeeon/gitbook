@@ -22,7 +22,6 @@
 
 你以可以在inetd service模式下运行 git-daemon; 点击 linkgit:git-daemon[1]　可以查看帮助信息.
 
-### Exporting a git repository via http ###
 ### 通过http协议导出git仓库 ###
 
 git协议有不错的性能和可靠性, 但是如果主机上已经配好了一台web服务器,使用http协议(git over http)可能会更容易配置一些.
