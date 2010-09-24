@@ -1,15 +1,21 @@
 ## Undoing in Git - Reset, Checkout and Revert ##
+## Git的撤消操作 - 重置, 签出 和 撤消 ##
 
 Git provides multiple methods for fixing up mistakes as you
 are developing.  Selecting an appropriate method depends on whether
 or not you have committed the mistake, and if you have committed the
 mistake, whether you have shared the erroneous commit with anyone else.
 
+Git提供了多种修复你开发过程中的错误的方法. 方法的选择取决于你是：包含有错误的文件是否提交了(commited); 如果你把它已经提交了, 那么你否把有错误的提交已与其它人共享这也很重要.
+
 ### Fixing un-committed mistakes ###
+### 修复未提交文件中的错误(重置) ###
 
 If you've messed up the working tree, but haven't yet committed your
 mistake, you can return the entire working tree to the last committed
 state with
+
+如果你现在的工作目录(work tree)里搞的一团乱麻, 但是你现在还没有把它们提交; 你可以通过下面的命令, 让工作目录回到上次提交时的状态(last committed state):
 
     $ git reset --hard HEAD
 
@@ -18,26 +24,32 @@ and as well as any outstanding changes you have in your working tree.
 In other words, it causes the results of "git diff" and "git diff --cached"
 to both be empty.
 
+你这条件命令会把你所以工作目录中所有未提交的内容清空(当然这不包括未置于版控制下的文件 untracked files). 从另一种角度来说, 这会让"git diff" 和"git diff --cached"命令的显示法都变为空.
+
 If you just want to restore just one file, say your hello.rb, use
 linkgit:git-checkout[1] instead
 
-    $ git checkout -- hello.rb
-    $ git checkout HEAD hello.rb
+如果你只是要恢复一个文件,如"hello.rb", 你就要使用 linkgit:git-checkout[1]
 
-The first command restores hello.rb to the version in the index,
-so that "git diff hello.rb" returns no differences.  The second command
-will restore hello.rb to the version in the HEAD revision, so
-that both "git diff hello.rb" and "git diff --cached hello.rb"
-return no differences.
+    $ git checkout -- hello.rb
+
+第一个命令把hello.rb从HEAD中签出并且把它恢复成未修改时的样子.
+
+译者:上面二行和原文有出入，经验证是原文有误,所以我要据正确的重写了.
 
 ### Fixing committed mistakes ###
+### 修复已提交文件中的错误 ###
 
 If you make a commit that you later wish you hadn't, there are two
 fundamentally different ways to fix the problem:
 
+如果你已经做了一个提交(commit),但是你马上后悔了, 这里有两种截然不同的方法去处理这个问题:
+
 1. You can create a new commit that undoes whatever was done
     by the old commit.  This is the correct thing if your
     mistake has already been made public.
+
+1. 创建一个新的提交(commit), 在新的提交里撤消老的提交所作的修改. 这种作法在你已经把代码发布的情况下特别有效.
 
 2. You can go back and modify the old commit.  You should
     never do this if you have already made the history public;
@@ -45,18 +57,27 @@ fundamentally different ways to fix the problem:
     change, and cannot correctly perform repeated merges from
     a branch that has had its history changed.
 
+2　你也可以去修改你的老提交(old commit). 如果你已经把代码发布了,那么千万别这么做; git不会处理项目的历史会改变的情况,如果一个分支的历史被改变了那以后就不能正常的合并.
+
+#### Fixing a mistake with a new commit ####
 #### Fixing a mistake with a new commit ####
 
 Creating a new commit that reverts an earlier change is very easy;
 just pass the linkgit:git-revert[1] command a reference to the bad
 commit; for example, to revert the most recent commit:
 
+创建一个新的，撤消(revert)了前期修改的提交(commit)是很容易的; 只要把出错的提交的名字(reference)做为参数传给命令: linkgit:git-revert[1]就可以了; 下面这条命令就演示了如何撤消最近的一个提交:
+
     $ git revert HEAD
 
 This will create a new commit which undoes the change in HEAD.  You
 will be given a chance to edit the commit message for the new commit.
 
+这样就创建了一个撤消了上次提交(HEAD)的新提交.
+你就有机会来修改新提交(new commit)里的提交注释信息.
+　
 You can also revert an earlier change, for example, the next-to-last:
+你也可撤消更早期的修改, 下面这条命令就是撤消“上上次”(next-to-last)的提交:
 
     $ git revert HEAD^
 
@@ -65,7 +86,10 @@ intact any changes made since then.  If more recent changes overlap
 with the changes to be reverted, then you will be asked to fix
 conflicts manually, just as in the case of resolving a merge.
 
+在这种情况下,git尝试去撤消老的提交,然后留下完整的老提交前的版本.　如果你最近的修改和要撤消的修改有重叠(overlap),那么就会被求手工解决冲突(conflicts),　就像解决合并(merge)时出现的冲突一样.
+
 #### Fixing a mistake by modifying a commit ####
+#### 修改提交来修复错误 ####
 
 If you have just committed something but realize you need to fix
 up that commit, recent versions of linkgit:git-commit[1] support an 
@@ -75,8 +99,12 @@ gives you an opportunity to add files that you forgot to add or
 correct typos in a commit message, prior to pushing the change
 out for the world to see.
 
+如果你刚刚做了某个提交(commit), 但是你这里又想来马上修改这个提交; 新版的 linkgit:git-commit[1] 现在支持一个叫**--amend**的参数，你能让修改刚才做的这个提交(HEAD commit). 这项机制,能让你在代码发布前,添加一些新的文件或是修改你的提交注释(commit message).
+
 If you find a mistake in an older commit, but still one that you
 have not yet published to the world, you use linkgit:git-rebase[1]
 in interactive mode, with "git rebase -i" marking the change
 that requires correction with **edit**.  This will allow you
 to amend the commit during the rebasing process.
+
+如果你在老提交(older commit)里发现一个错误, 但是现在还没有发布到代码服务器上. 你可以使用 linkgit:git-rebase[1]命令的交互模式, "git rebase -i"会提示你在编辑中做相关的修改. 这样就是让你在"衍合"(rebasing)的过程来修改提交.
