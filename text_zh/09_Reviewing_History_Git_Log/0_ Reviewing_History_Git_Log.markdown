@@ -1,6 +1,6 @@
 ## 查看历史 －Git日志 ##
 
-linkgit:git-log[1]命令可以示所有的提交(commit)。 ......
+linkgit:git-log[1]命令可以显示所有的提交(commit)。 ......
 
     $ git log v2.5..	    # commits since (not reachable from) v2.5
     $ git log test..master	# commits reachable from master but not test
@@ -61,8 +61,7 @@ Git会根据git log命令的参数，按时间顺序显示相关的提交(commit
 
 ### 日志统计 ###
 
-如果用<code>--stat</code>选项使用'git log',它会显示在每个提交(commit)中哪
-个文件被修改，添加或删除了多少行内容。
+如果用<code>--stat</code>选项使用'git log',它会显示在每个提交(commit)中哪些文件被修改了, 这些文件分别添加或删除了多少行内容.
 
 	$ git log --stat
 	
@@ -137,9 +136,7 @@ Git会根据git log命令的参数，按时间顺序显示相关的提交(commit
 ### 日志排序 ###
 
 
-你也可以把日志记录按一些不同的顺序来显示。注意，git日志从最近的提
-交(commit)开始，并且从这里开始向它们父分支回溯。然而git历史可能包
-括多个互不关联的开发线路，这样有时提交(commits)显示出来就有点杂乱。
+你也可以把日志记录按一些不同的顺序来显示。注意，git日志从最近的提交(commit)开始，并且从这里开始向它们父分支回溯。然而git历史可能包括多个互不关联的开发线路，这样有时提交(commits)显示出来就有点杂乱。
 
 
 如果你要指定一个特定的顺序，可以为git log命令添加顺序参数(ordering option).
@@ -147,9 +144,7 @@ Git会根据git log命令的参数，按时间顺序显示相关的提交(commit
 按默认情况，提交(commits)会按逆时间(reverse chronological)顺序显示。
 
 
-但是你也可以指定‘--topo-order'参数，这就会让提交(commits)按拓朴顺序来显示
-(就是子提交在它们的交提交前显示). 如果你用git log命令按拓朴顺序来显示git仓库
-的提交日志，你会看到“开发线"(development lines)都会集合在一起。
+但是你也可以指定‘--topo-order'参数，这就会让提交(commits)按拓朴顺序来显示(就是子提交在它们的父提交前显示). 如果你用git log命令按拓朴顺序来显示git仓库的提交日志，你会看到“开发线"(development lines)都会集合在一起.
 
 	$ git log --pretty=format:'%h : %s' --topo-order --graph
 	*   4a904d7 : Merge branch 'idx2'
@@ -181,10 +176,7 @@ Git会根据git log命令的参数，按时间顺序显示相关的提交(commit
 	| | | * | 4d6b69c : Fixed to close opened file description.
 
 
-你也可以用'--date-order'参数，这样显示提交日志的顺序主要按提交日期来排序。
-这个参数和'--topo-order'有一点像，没有父分支会在它们的子分支前显示，但是
-其它的东东还是按交时间来排序显示。你会看到"开发线"(development lines)没有
-集合一起，它们会像并行开发(parallel development)一样跳来跳去的：
+你也可以用'--date-order'参数，这样显示提交日志的顺序主要按提交日期来排序. 这个参数和'--topo-order'有一点像，没有父分支会在它们的子分支前显示，但是其它的东东还是按交时间来排序显示。你会看到"开发线"(development lines)没有集合一起，它们会像并行开发(parallel development)一样跳来跳去的：
 
 	$ git log --pretty=format:'%h : %s' --date-order --graph
 	*   4a904d7 : Merge branch 'idx2'
