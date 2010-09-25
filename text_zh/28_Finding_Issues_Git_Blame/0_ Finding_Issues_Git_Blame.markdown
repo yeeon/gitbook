@@ -1,9 +1,12 @@
 ## Finding Issues - Git Blame ##
+## 查找问题的利器 - Git Blame ##
 
 The linkgit:git-blame[1] command is really helpful for figuring out who changed
 which sections of a file.  If you simple run 'git blame [filename]' you'll get
 an output of the entire file with the last commit sha, date and author for every
 line in the file.
+
+如果你要找出文件每个部分是谁修改的, 那么 linkgit:git-blame[1] 真是非常有用的. 只要运行'git blame [filename], 你就会得到整个文件的每一行的详细修改信息:包括SHA串,日期和作者:
 
 	$ git blame sha1_file.c
 	...
@@ -22,7 +25,11 @@ line in the file.
 This is often helpful if a file had a line reverted or a mistake that broke 
 the build to help you see who changed that line last.  
 
+如果文件被修改了(reverted),或是编译(build)失败了; 这个命令就可以大展身手了.
+
 You can also specify a start and end line for the blame:
+
+你也可以用"-L"参数在命令(blame)中指定开始和结束行:
 
 	$>git blame -L 160,+10 sha1_file.c 
 	ace1534d (Junio C Hamano 2005-05-07 00:38:04 -0700       160)}
