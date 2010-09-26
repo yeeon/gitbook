@@ -1,6 +1,6 @@
-## Modifying your History ##
+## 修改你的历史 ##
 
-Interactive rebasing is a good way to modify individual commits.
+交互式洐合是修改单个提交的好方法。
 
-linkgit:git-filter-branch[1] is a good way to edit commits en masse.
+linkgit:git-filter-branch[1]是修改大量提交的好方法。
 
