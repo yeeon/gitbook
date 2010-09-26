@@ -1,10 +1,6 @@
-## Creating New Empty Branches ##
+## 创建新的空分支 ##
 
-Ocasionally, you may want to keep branches in your repository that do not
-share an ancestor with your normal code.  Some examples of this might be
-generated documentation or something along those lines.  If you want to 
-create a new branch head that does not use your current codebase as a 
-parent, you can create an empty branch like this:
+在偶尔的情况下，你可能会想要保留那些与你的代码没有共同祖先的分支。例如在这些分支上保留生成的文档或者其他一些东西。如果你需要创建一个不使用当前代码库作为父提交的分支，你可以用如下的方法创建一个空分支：
 
     git symbolic-ref HEAD refs/heads/newbranch 
     rm .git/index 
