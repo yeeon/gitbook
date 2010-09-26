@@ -1,8 +1,6 @@
-## Interactive Adding ##
+## 交互式添加 ##
 
-Interactive Adding is a really nice way of working with and visualizing
-the Git index.  To start it up, simply type 'git add -i'.  Git will show
-you all the modified files you have and their status.
+交互式添加提供友好的界面去操作Git索引（index），同时亦提供了可视化索引的能力。只需简单键入'git add -i'，即可使用此功能。Git会列出所有修改过的文件及它们的状态。
 
 	$>git add -i
 	           staged     unstaged path
@@ -17,14 +15,9 @@ you all the modified files you have and their status.
 	  5: patch	  6: diff	  7: quit	  8: help
 	What now> 
 
-In this case, we can see that there are 5 modified files that have not been
-added to our index yet (unstaged), and even how many lines have been added to
-or removed from each.  It then shows us an interactive menu of what we can
-do in this mode.
+在这个例子中，我们可以看到有5个修改过的文件还没有被加入到索引中（unstaged），甚至可以看到每个文件增加和减少的行数。紧接着是一个交互式的菜单，列出了我们可以在此模式中使用的命令。
 
-If we want to stage the files, we can type '2' or 'u' for the update mode. 
-Then I can specify which files I want to stage (add to the index) by typing
-in the numbers of the files (in this case, 1-4)
+如果我们想要暂存（stage）这些文件，我们可以键入'2'或者'u'进入更新（update）模式。然后我们可以通过键入文件的范围（本例中是1-4）来决定把哪些文件加入到索引之中。
 
 	What now> 2
 	           staged     unstaged path
@@ -42,8 +35,7 @@ in the numbers of the files (in this case, 1-4)
 	  5:    unchanged      +121/-0 text/14_Interactive_Rebasing/0_ Interactive_Rebasing.markdown
 	Update>> 
 
-If I hit enter, I will be taken back to the main menu where I can see that
-the file status has changed:
+如果键入回车，我会回到主菜单中，同时可以看到那些指定文件的状态已经发生了改变：
 
 	What now> status
 	           staged     unstaged path
@@ -53,9 +45,7 @@ the file status has changed:
 	  4:        +3/-3      nothing script/pdf.rb
 	  5:    unchanged      +121/-0 text/14_Interactive_Rebasing/0_ Interactive_Rebasing.markdown
 
-Now we can see the first four files are staged and the last one is still not.
-This is basically a compressed way to see the same information we see when
-we run 'git status' from the command line:
+现在我们可以看到前4个文件已经被暂存，但是最后一个没有。基本上，这是一个更加紧凑的查看状态的方式，实质上的信息与我们在命令行中运行'git status'是一致的：
 
 	$ git status
 	# On branch master
@@ -73,20 +63,11 @@ we run 'git status' from the command line:
 	#	modified:   text/14_Interactive_Rebasing/0_ Interactive_Rebasing.markdown
 	#
 
-There are a number of useful things we can do, including unstaging files (3: revert),
-adding untracked files (4: add untracked), and viewing diffs (6: diff). Those
-are all pretty straightforward.  However, there is one command that is pretty
-cool here, which is staging patches (5: patch).
+我们可以进行数个有用的操作，包括取消文件的暂存（3: revert），加入未跟踪的文件（4: add untracked）和查看差异（6: diff）。这些功能都很易懂。还有一个很“酷”的功能，就是暂存补丁（staging patches）（5: patch）。
 
-If you type '5' or 'p' in the menu, git will show you your diff patch by patch 
-(or hunk by hunk) and ask if you want to stage each one.  That way you can 
-actually stage for a commit a part of a file edit.  If you've edited a file
-and want to only commit part of it and not an unfinished part, or commit 
-documentation or whitespace changes seperate from substantive changes, you can
-use 'git add -i' to do so relatively easily.
+如果你键入'5'或者'p'，git会一个一个补丁（一块一块）地显示出差异，然后询问是否对每一块进行暂存操作。通过这个方法，你可以暂存文件修改中的一部分。如果你编辑了一个文件，只想提交其中一部分而不包括其他未完成编辑的部分，或者把文档、空白字符从大量的修改中分开提交，你可以使用'git add -i'去相对轻松地完成任务。
 
-Here I've staged some changes to the book_index_template.html file, but not all
-of them:
+这里我暂存了book_index_template.html的部分修改，而不是全部修改：
 
 	         staged     unstaged path
 	1:        +4/-0      nothing assets/stylesheets/style.css
@@ -96,9 +77,6 @@ of them:
 	5:    unchanged      +121/-0 text/14_Interactive_Rebasing/0_ Interactive_Rebasing.markdown
 	6:    unchanged       +85/-0 text/15_Interactive_Adding/0_ Interactive_Adding.markdown
 
-When you are done making changes to your index through 'git add -i', you simply
-quit (7: quit) and then run 'git commit' to commit the staged changes.  Remember
-**not** to run 'git commit -a', which will blow away all the careful changes 
-you've just made and simply commit everything.
+当你通过'git add -i'完成对索引的改动后，你只需要退出（7: quit），然后'git commit'去提交暂存的修改。切记**不要**运行'git commit -a'，它会忽视你刚才辛辛苦苦做的修改而把所有东西都提交到仓库中去。
 
 [gitcast:c3_add_interactive]("GitCast #3: Interactive Adding")
