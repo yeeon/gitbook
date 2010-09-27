@@ -1,10 +1,8 @@
-## Advanced Branching And Merging ##
+## 高级分支与合并 ##
 
-### Getting conflict-resolution help during a merge ###
+### 在合并过程中得到解决冲突的协助 ###
 
-All of the changes that git was able to merge automatically are
-already added to the index file, so linkgit:git-diff[1] shows only
-the conflicts.  It uses an unusual syntax:
+git会把所有可以自动合并的修改加入到索引中去, 所以linkgit:git-diff[1]只会显示有冲突的部分. 它使用了一种不常见的语法:
 
     $ git diff
     diff --cc file.txt
@@ -18,34 +16,19 @@ the conflicts.  It uses an unusual syntax:
     + Goodbye
     ++>>>>>>> 77976da35a11db4580b80ae27e8d65caf5208086:file.txt
 
-Recall that the commit which will be committed after we resolve this
-conflict will have two parents instead of the usual one: one parent
-will be HEAD, the tip of the current branch; the other will be the
-tip of the other branch, which is stored temporarily in MERGE_HEAD.
+回忆一下, 在我们解决冲突之后, 得到的提交会有两个而不是一个父提交: 一个父提交会成为HEAD, 也就是当前分支的tip; 另外一个父提交会成为另一分支的tip, 被暂时存在MERGE_HEAD.
 
-During the merge, the index holds three versions of each file.  Each of
-these three "file stages" represents a different version of the file:
+在合并过程中, 索引中保存着每个文件的三个版本. 三个"文件暂存(file stage)"中的每一个都代表了文件的不同版本:
 
-	$ git show :1:file.txt	# the file in a common ancestor of both branches
-	$ git show :2:file.txt	# the version from HEAD.
-	$ git show :3:file.txt	# the version from MERGE_HEAD.
+	$ git show :1:file.txt	# 两个分支共同祖先中的版本.
+	$ git show :2:file.txt	# HEAD中的版本.
+	$ git show :3:file.txt	# MERGE_HEAD中的版本.
 
-When you ask linkgit:git-diff[1] to show the conflicts, it runs a
-three-way diff between the conflicted merge results in the work tree with
-stages 2 and 3 to show only hunks whose contents come from both sides,
-mixed (in other words, when a hunk's merge results come only from stage 2,
-that part is not conflicting and is not shown.  Same for stage 3).
+当你使用linkgit:git-diff[1]去显示冲突时, 它在工作树(work tree), 暂存2(stage 2)和暂存3(stage 3)之间执行三路diff操作, 只显示那些两方都有的块(换句话说, 当一个块的合并结果只从暂存2中得到时, 是不会被显示出来的; 对于暂存3来说也是一样).
 
-The diff above shows the differences between the working-tree version of
-file.txt and the stage 2 and stage 3 versions.  So instead of preceding
-each line by a single "+" or "-", it now uses two columns: the first
-column is used for differences between the first parent and the working
-directory copy, and the second for differences between the second parent
-and the working directory copy.  (See the "COMBINED DIFF FORMAT" section
-of linkgit:git-diff-files[1] for a details of the format.)
+上面的diff结果显示了file.txt在工作树, 暂存2和暂存3中的差异. git不在每行前面加上单个'+'或者'-', 相反地, 它使用两栏去显示差异: 第一栏用于显示第一个父提交与工作目录文件拷贝的差异, 第二栏用于显示第二个父提交与工作文件拷贝的差异. (参见linkgit:git-diff-files[1]中的"COMBINED DIFF FORMAT"取得此格式详细信息.)
 
-After resolving the conflict in the obvious way (but before updating the
-index), the diff will look like:
+在用直观的方法解决冲突之后(但是在更新索引之前), diff输出会变成下面的样子:
 
     $ git diff
     diff --cc file.txt
@@ -57,35 +40,28 @@ index), the diff will look like:
     -Goodbye
     ++Goodbye world
 
-This shows that our resolved version deleted "Hello world" from the
-first parent, deleted "Goodbye" from the second parent, and added
-"Goodbye world", which was previously absent from both.
+上面的输出显示了解决冲突后的版本删除了第一个父版本提供的"Hello world"和第二个父版本提供的"Goodbye", 然后加入了两个父版本中都没有的"Goodbye world".
 
-Some special diff options allow diffing the working directory against
-any of these stages:
+一些特别diff选项允许你对比工作目录和三个暂存中任何一个的差异:
 
-    $ git diff -1 file.txt		# diff against stage 1
-    $ git diff --base file.txt	# same as the above
-    $ git diff -2 file.txt		# diff against stage 2
-    $ git diff --ours file.txt	# same as the above
-    $ git diff -3 file.txt		# diff against stage 3
-    $ git diff --theirs file.txt	# same as the above.
+    $ git diff -1 file.txt		# 与暂存1进行比较
+    $ git diff --base file.txt	        # 与上相同
+    $ git diff -2 file.txt		# 与暂存2进行比较
+    $ git diff --ours file.txt	        # 与上相同
+    $ git diff -3 file.txt		# 与暂存3进行比较
+    $ git diff --theirs file.txt	# 与上相同.
 
-The linkgit:git-log[1] and linkgit:gitk[1] commands also provide special help
-for merges:
+linkgit:git-log[1]和linkgit:gitk[1]命令也为合并操作提供了特别的协助:
 
     $ git log --merge
     $ gitk --merge
 
-These will display all commits which exist only on HEAD or on
-MERGE_HEAD, and which touch an unmerged file.
+这会显示所有那些只在HEAD或者只在MERGE_HEAD中存在的提交, 还有那些更新(touch)了未合并文件的提交.
 
-You may also use linkgit:git-mergetool[1], which lets you merge the
-unmerged files using external tools such as emacs or kdiff3.
+你也可以使用linkgit:git-mergetool[1], 它允许你使用外部工具如emacs或kdiff3去合并文件.
 
-Each time you resolve the conflicts in a file and update the index:
+每次你解决冲突之后, 应该更新索引:
 
     $ git add file.txt
 
-the different stages of that file will be "collapsed", after which
-git-diff will (by default) no longer show diffs for that file.
+完成索引更新之后, git-diff(缺省地)不再显示那个文件的差异, 所以那个文件的不同暂存版本会被"折叠"起来.
