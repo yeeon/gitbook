@@ -1,47 +1,30 @@
-## Git and Email ##
+## Git和Email ##
 
-### Submitting patches to a project ###
+### 向一个项目提交补丁 ###
 
-If you just have a few changes, the simplest way to submit them may
-just be to send them as patches in email:
+如果你只做了少量的改动, 最简单的提交方法就是把它们做成补丁(patch)用邮件发出去:
 
-First, use linkgit:git-format-patch[1]; for example:
+首先, 使用linkgit:git-format-patch[1]; 例如:
 
     $ git format-patch origin
 
-will produce a numbered series of files in the current directory, one
-for each patch in the current branch but not in origin/HEAD.
+这会在当前目录生成一系统编号的补丁文件, 每一个补丁文件都包含了当前分支和origin/HEAD之间的差异内容.
 
-You can then import these into your mail client and send them by
-hand.  However, if you have a lot to send at once, you may prefer to
-use the linkgit:git-send-email[1] script to automate the process.
-Consult the mailing list for your project first to determine how they
-prefer such patches be handled.
+然后你可以手工把这些文件导入你的Email客户端. 但是如果你需要一次发送很多补丁, 你可能会更喜欢使用linkgit:git-send-email[1]脚本去自动完成这个工作. 在发送之前, 应当先到项目的邮件列表上咨询一下项目管理者, 了解他们管理这些补丁的方式.
 
 
-### Importing patches to a project ###
+### 向一个项目中导入补丁 ###
 
-Git also provides a tool called linkgit:git-am[1] (am stands for
-"apply mailbox"), for importing such an emailed series of patches.
-Just save all of the patch-containing messages, in order, into a
-single mailbox file, say "patches.mbox", then run
+Git也提供了一个名为linkgit:git-am[1]的工具(am是"apply mailbox"的缩写)去应用那些通过Email寄来的系列补丁. 你只需要按顺序把所有包含补丁的消息存入单个的mailbox文件, 比如说"patches.mbox", 然后运行
 
     $ git am -3 patches.mbox
 
-Git will apply each patch in order; if any conflicts are found, it
-will stop, and you can manually fix the conflicts and
-resolve the merge.  (The "-3" option tells
-git to perform a merge; if you would prefer it just to abort and
-leave your tree and index untouched, you may omit that option.)
+Git会按照顺序应用每一个补丁; 如果发生了冲突, git会停下来让你手工解决冲突从而完成合并. ("-3"选项会让git执行合并操作; 如果你更喜欢中止并且不改动你的工作树和索引, 你可以省略"-3"选项.)
 
-Once the index is updated with the results of the conflict
-resolution, instead of creating a new commit, just run
+在解决冲突和更新索引之后, 你不需要再创建一个新提交, 只需要运行
 
     $ git am --resolved
 
-and git will create the commit for you and continue applying the
-remaining patches from the mailbox.
+这时git会为你创建一个提交, 然后继续应用mailbox中余下的补丁.
 
-The final result will be a series of commits, one for each patch in
-the original mailbox, with authorship and commit log message each
-taken from the message containing each patch.
+最后的效果是, git产生了一系列提交, 每个提交是原来mailbox中的一个补丁, 补丁中的作者信息和提交日志也一并被记录下来.
