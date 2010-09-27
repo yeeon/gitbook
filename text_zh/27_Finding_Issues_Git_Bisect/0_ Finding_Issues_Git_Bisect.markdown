@@ -1,5 +1,6 @@
-## Finding Issues - Git Bisect ##
 ## 查找问题的利器 - Git Bisect ##
+
+译者注:此节正在翻译中.
 
 Suppose version 2.6.18 of your project worked, but the version at
 "master" crashes.  Sometimes the best way to find the cause of such a
