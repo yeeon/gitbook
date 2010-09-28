@@ -162,7 +162,7 @@ table.lined td, table.lined th {
 @page :left {
   @top-left {
     font: 11pt "Gill Sans", serif;
-    content: "Git Community Book";
+    content: "Git Community Book 中文版";
     vertical-align: bottom;
     padding-bottom: 2em;
   }
