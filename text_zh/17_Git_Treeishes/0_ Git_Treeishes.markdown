@@ -63,7 +63,7 @@ Git的引用日志(Ref Log)可以让你做一些‘相对'查询操作:
 
 这能告诉你某个提交的第N个直接父提交(parent). 这种格式在合并提交(merge commits)时特别有用, 这样就可以使提交对象(commit object)有多于一个直接父对象(direct parent).
 
-译者注:假设master是由a和b两个分支合并的,那么master^1是指分支a,master^2就是指分支b.
+译者注:假设master是由a和b两个分支合并的,那么 `master^1` 是指分支a, `master^2` 就是指分支b.
 
 	master^2
 	
