@@ -1,30 +1,23 @@
-## SCM Migration ##
+## 从其他代码管理工具迁移到Git ##
 
-So you've made the decision to move away from your existing system
-and convert your whole project to Git.  How can you do that easily?
+你决定要把你的整个项目从原来的代码管理工具迁移到Git, 要怎么做才比较简单呢?
 
-### Importing Subversion ###
+### 从Subversion导入 ###
 
-Git comes with a script called git-svn that has a clone command that
-will import a subversion repository into a new git repository.  There
-is also a free tool on the GitHub service that will do this for you.
-	
+Git包含了一个名为git-svn的脚本, 它有一个克隆(clone)命令, 可以把一个Subversion仓库导入到一个新的Git仓库. GitHub上也有完成同样工作的免费工具.
+
 	$ git-svn clone http://my-project.googlecode.com/svn/trunk new-project
 
-This will give you a new Git repository with all the history of the
-original Subversion repo.  This takes a pretty good amount of time, generally,
-since it starts with version 1 and checks out and commits locally every
-single revision one by one.
+上面的命令会创建一个包含原来Subversion仓库全部历史记录的Git仓库. 通常这个操作会花相当长的时间, 因为它从第1个版本开始, 一个一个版本地签出, 然后再把这些版本进行本地提交.
 
-### Importing Perforce ###
+### 从Perforce导入
 
-In contrib/fast-import you will find the git-p4 script, which is a 
-Python script that will import a Perforce repository for you.
+在contrib/fast-import目录下, 你会找到git-p4脚本, 它会帮你导入Perforce仓库.
 
 	$ ~/git.git/contrib/fast-import/git-p4 clone //depot/project/main@all myproject
-	
 
-### Importing Others ###
+
+### 从其他管理工具导入 ###
 
 These are other SCMs that listed high on the Git Survey, should find import
 docs for them.  !!TODO!!
@@ -35,4 +28,4 @@ docs for them.  !!TODO!!
 * Bazaar-NG
 * Darcs
 * ClearCase
-	
+
