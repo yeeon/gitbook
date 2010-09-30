@@ -1,6 +1,6 @@
-## Deploying with Git ##
+## 使用Git进行系统部署 ##
 
-### Capistrano and Git ###
+### Capistrano 与 Git ###
 
 [GitHub Guide on Deploying with Cap](http://github.com/guides/deploying-with-capistrano)
 
