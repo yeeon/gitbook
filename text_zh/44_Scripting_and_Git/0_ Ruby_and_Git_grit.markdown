@@ -1,23 +1,23 @@
-## Scripting and Git ##
+## Git的脚本支持 ##
 
-
-### Ruby and Git ###
+### Ruby 与 Git ###
 
 grit
 
 jgit + jruby
 
 
-### PHP and Git ###
+
+### PHP 与 Git ###
 
 
 
-### Python and Git ###
+### Python 与 Git ###
 
 pygit
 
 
-### Perl and Git ###
+### Perl 与 Git ###
 
 perlgit
 
