@@ -1,6 +1,6 @@
-## Hosted Git ##
+## Git仓库托管 ##
 
-github
+(github)[http://wwww.github.com]
 
-repoorcz 
+(repo.or.cz)[http://repo.or.cz] 
 
