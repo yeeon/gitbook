@@ -1,14 +1,6 @@
 ## 查找问题的利器 - Git Bisect ##
 
-译者注:此节正在翻译中.
-
-Suppose version 2.6.18 of your project worked, but the version at
-"master" crashes.  Sometimes the best way to find the cause of such a
-regression is to perform a brute-force search through the project's
-history to find the particular commit that caused the problem.  The
-linkgit:git-bisect[1] command can help you do this:
-
-假设你在项目的'2.6.18'版上面工作, 但是你的"master"现在崩溃(crash)了. 有种解决这种问题这种问题的最好办法是:暴力复原(brute-force regression)项目历史,找出是哪个提交(commit)导致了这个问题. linkgit:git-bisect[1] 可以更好帮你解决这个问题:
+假设你在项目的'2.6.18'版上面工作, 但是你当前的代码(master)崩溃(crash)了. 有时解决这种问题这种问题的最好办法是: 手工逐步恢复(brute-force regression)项目历史,　找出是哪个提交(commit)导致了这个问题. 但是 linkgit:git-bisect[1](二分查找) 可以更好帮你解决这个问题:
 
     $ git bisect start
     $ git bisect good v2.6.18
@@ -16,55 +8,34 @@ linkgit:git-bisect[1] command can help you do this:
     Bisecting: 3537 revisions left to test after this
     [65934a9a028b88e83e2b0f8b36618fe503349f8e] BLOCK: Make USB storage depend on SCSI rather than selecting it [try #6]
 
-If you run "git branch" at this point, you'll see that git has
-temporarily moved you to a new branch named "bisect".  This branch
-points to a commit (with commit id 65934...) that is reachable from
-"master" but not from v2.6.18.  Compile and test it, and see whether
-it crashes.  Assume it does crash.  Then:
 
-如果你现在运行"git branch",你现在所在的分支是"bisect". ()
-现在在这个分里,　编译并测试项目代码, 查看它是否崩溃(crash). 假设它没有出问题,那么:
-
+如果你现在运行"git branch",　会发现你现在所在的是"no branch"(译者注:这是进行git bisect的一种状态).  这时分支指向提交（commit):"69543", 此提交刚好是在"v2.6.18"和“master"中间的位置.  现在在这个分支里,　编译并测试项目代码, 查看它是否崩溃(crash). 假设它这次崩溃了, 那么运行下面的命令:
 
     $ git bisect bad
     Bisecting: 1769 revisions left to test after this
     [7eff82c8b1511017ae605f0c99ac275a7e21b867] i2c-core: Drop useless bitmaskings
 
-checks out an older version.  Continue like this, telling git at each
-stage whether the version it gives you is good or bad, and notice
-that the number of revisions left to test is cut approximately in
-half each time.
 
-现在签出一个更老的版本. 
+现在git自动签出(checkout)一个更老的版本. 继续这样做, 用"git bisect good","git bisect bad"告诉git每次签出的版本是否没有问题; 你现在可以注意一下当前的签出的版本, 你会发现git在用"二分查找(binary search)方法"签出"bad"和"good"之间的一个版本(commit or revison). 
 
-After about 13 tests (in this case), it will output the commit id of
-the guilty commit.  You can then examine the commit with
-linkgit:git-show[1], find out who wrote it, and mail them your bug
-report with the commit id.  Finally, run
 
-在这个项目中, 经过13次尝试, 找出了导致问题的提交(guilty commit). 你可以用 linkgit:git-show[1] 命令查看这个提交(commit), 找出是谁做的修改，然后写邮件给TA. 最后, 运行:
+在这个项目(case)中, 经过13次尝试, 找出了导致问题的提交(guilty commit). 你可以用 linkgit:git-show[1] 命令查看这个提交(commit), 找出是谁做的修改，然后写邮件给TA. 最后, 运行:
 
     $ git bisect reset
 
-to return you to the branch you were on before and delete the
-temporary "bisect" branch.
-
-这会到你之前(执行git bisect start之前)的状态, 并且删掉"bisect"这个临时分支.
-
-Note that the version which git-bisect checks out for you at each
-point is just a suggestion, and you're free to try a different
-version if you think it would be a good idea.  For example,
-occasionally you may land on a commit that broke something unrelated;
-run
+这会到你之前(执行git bisect start之前)的状态.
 
 
+注意: git-bisect 每次所选择签出的版本, 只是一个建议; 如果你有更好的想法, 也可以去试试手工选择一个不同的版本.
+
+运行:
     $ git bisect visualize
 
-which will run gitk and label the commit it chose with a marker that
-says "bisect".  Choose a safe-looking commit nearby, note its commit
-id, and check it out with:
+这会运行gitk, 界面上会标识出"git bisect"命令自动选择的提交(commit). 你可以选择一个相邻的提交(commit), 记住它的SHA串值, 用下面的命令把它签出来:
 
     $ git reset --hard fb47ddb2db...
 
-then test, run "bisect good" or "bisect bad" as appropriate, and
-continue.
+
+然后进行测试, 再根据测试結果执行”bisect good"或是"bisect bad"; 就这样反复执行, 直到找出问题为止.
+
+译者注: 关于"git bisect start"后的分支状态, 译文和原文不一致. 原文是说执行"git bisect start"后会创建一个名为"bisect"的分支, 但是实际情况却是处于"no branch"的状态.
