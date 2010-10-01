@@ -5,6 +5,7 @@ action at certain points. When git-init is run, a handful example hooks are
 copied in the hooks directory of the new repository, but by default they are 
 all disabled. To enable a hook, rename it by removing its .sample suffix.
 
+钩子(hooks)是一些在"$GIT-DIR/hooks"目录的脚本, 在被特定的事件(certain points)触发后被调用. 当"git init"命令被调用后, 一些非常有用的示例钩子文件(hooks)被拷到新仓库的hooks目录中; 但是在默认情况下这些钩子(hooks)是不生效的. 把这些钩子文件(hooks)的".sample"文件名后缀去掉就可以使它们生效了.
 
 ### applypatch-msg ###
 
@@ -56,6 +57,7 @@ with `\--no-verify` option.  It takes no parameter, and is
 invoked before obtaining the proposed commit log message and
 making a commit.  Exiting with non-zero status from this script
 causes the 'git-commit' to abort.
+
 
 The default 'pre-commit' hook, when enabled, catches introduction
 of lines with trailing whitespaces and aborts the commit when
