@@ -1,8 +1,6 @@
-## The Git Index ##
+## Git索引 ##
 
-The index is a binary file (generally kept in .git/index) containing a
-sorted list of path names, each with permissions and the SHA1 of a blob
-object; linkgit:git-ls-files[1] can show you the contents of the index:
+索引(index)是一个存放了排好序的路径的二进制文件(通常是.git/index), 每一个条目都附带有一个块对象的SHA1值以及访问权限; linkgit:git-ls-files[1]可以显示出索引的内容:
 
     $ git ls-files --stage
     100644 63c918c667fa005ff12ad89437f2fdc80926e21c 0	.gitignore
@@ -15,37 +13,18 @@ object; linkgit:git-ls-files[1] can show you the contents of the index:
     100644 2ade97b2574a9f77e7ae4002a4e07a6a38e46d07 0	xdiff/xutils.c
     100644 d5de8292e05e7c36c4b68857c1cf9855e3d2f70a 0	xdiff/xutils.h
 
-Note that in older documentation you may see the index called the
-"current directory cache" or just the "cache".  It has three important
-properties:
+请注意, 在一些旧的文档中, 索引可能被称为"当前目录缓存(current directory cache)"或者"缓存(cache)". 它有三个重要的属性:
 
-1. The index contains all the information necessary to generate a single
-    (uniquely determined) tree object.
+1. 索引存储了生成一个(独一无二的)树对象所需要的所有信息.
 
-    For example, running linkgit:git-commit[1] generates this tree object
-    from the index, stores it in the object database, and uses it as the
-    tree object associated with the new commit.
+    例如, 运行linkgit:git-commit[1]会从索引中生成一个树对象, 把这个树对象存储在对象数据库(object database)中, 然后把它与这个提交关联起来. (译注: 回忆"查看Git对象"一章, 每一个提交都对应一个树对象.)
 
-2. The index enables fast comparisons between the tree object it defines
-    and the working tree.
+2. 索引使得对索引生成的树对象和工作树进行快速比较成为可能.
 
-    It does this by storing some additional data for each entry (such as
-    the last modified time).  This data is not displayed above, and is not
-    stored in the created tree object, but it can be used to determine
-    quickly which files in the working directory differ from what was
-    stored in the index, and thus save git from having to read all of the
-    data from such files to look for changes.
+    索引通过存储每个对象的一些额外信息(比如说最后修改时间)来完成这个工作. 这些数据没有在上面显示出来, 也没有存储在创建出来的树对象中, 但是它们可以用于快速找出当时工作目录中的文件与索引的差异, 从而让Git不必将文件的内容全部读出.
 
-3. It can efficiently represent information about merge conflicts
-    between different tree objects, allowing each pathname to be
-    associated with sufficient information about the trees involved that
-    you can create a three-way merge between them.
+3. 索引可以有效地表示树对象合并时的冲突信息, 使得每一个路径名都有足够的信息与树对象联系起来, 从而可以对它们进行三路合并.
 
-    During a merge, the index can
-    store multiple versions of a single file (called "stages").  The third
-    column in the linkgit:git-ls-files[1] output above is the stage
-    number, and will take on values other than 0 for files with merge
-    conflicts.
+    在合并期间, 索引可能存储一个文件的多个版本(称为"stages"). 上面linkgit:git-ls-files[1]的第三栏输出就是stage号. 在出现合并冲突时, 这个号码会是其他值, 而不是0.
 
-The index is thus a sort of temporary staging area, which is filled with
-a tree which you are in the process of working on.
+因此索引实际上是一种暂存区域(temporary staging area), 它装载了你正在使用的树对象.
