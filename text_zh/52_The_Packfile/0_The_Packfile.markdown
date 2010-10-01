@@ -1,52 +1,26 @@
-## The Packfile ##
+## 打包文件 ##
 
-This chapter explains in detail, down to the bits, how the packfile and 
-pack index files are formatted.
+这一章将详细描述打包文件(packfile)和打包文件索引(packfile index)的格式.
 
-### The Packfile Index ###
+### 打包文件索引 ###
 
-First off, we have the packfile index, which is basically just a series of 
-bookmarks into a packfile. 
+首先, 我们来看一下打包文件索引, 基本上它只是一系列指向打包文件内位置的书签.
 
-There are two versions of the packfile index - version one, which is the default
-in versions of Git earlier than 1.6, and version two, which is the default
-from 1.6 forward, but which can be read by Git versions going back to 1.5.2, and
-has been further backported to 1.4.4.5 if you are still on the 1.4 series.
+打包文件索引有两个版本. 版本1的格式用于Git 1.6版本之前, 版本2的格式用于Git 1.6及以后的版本. 但是版本2可以被Git 1.5.2及以上的Git读取, 同时也被后向移植(backport)到了1.4.4.5 .
 
-Version 2 also includes a CRC checksum of each object so compressed data 
-can be copied directly from pack to pack during repacking without 
-undetected data corruption.  Version 2 indexes can also handle packfiles
-larger than 4 Gb.
+版本2包含了每个对象的CRC校验值, 因此在重打包的过程中, 压缩过的对象可以直接进行包间拷贝(from pack to pack)而不用担心数据损坏. 版本2的打包文件索引同时亦支持大于4G的打包文件.
 
 [fig:packfile-index]
 
-In both formats, the fanout table is simply a way to find the offset of a
-particular sha faster within the index file.  The offset/sha1[]
-tables are sorted by sha1[] values (this is to allow binary search of this
-table), and fanout[] table points at the offset/sha1[] table in a specific
-way (so that part of the latter table that covers all hashes that start
-with a given byte can be found to avoid 8 iterations of the binary
-search).
+在两个版本格式中, fanout(展开)表用于更快地查找某特定的SHA值在索引文件中的位置. offset/sha1表使用SHA1值进行排序(以便于对这个表进行二分搜索), fanout表用一种特殊的方法指向offset/sha1表(因此后一个表中包含某一特定字节开头的所有Hash的那一部分可以被轻易找到, 而不必经过二分搜索的8次迭代).
 
-In version 1, the offsets and shas are in the same space, where in version two, 
-there are seperate tables
-for the shas, crc checksums and offsets.  At the end of both files are 
-checksum shas for both the index file and the packfile it references.
+在第1版中, offset(偏移)和SHA值存在在同一位置. 但是在第2版中, SHA值, CRC值和offset被放在不同的表中. 两个版本的文件最后都是索引文件以及指向的打包文件的CRC校验值.
 
-Importantly, packfile indexes are *not* neccesary to extract objects from
-a packfile, they are simply used to *quickly* retrieve individual objects from
-a pack.  The packfile format is used in upload-pack and receieve-pack programs
-(push and fetch protocols) to transfer objects and there is no index used then
-- it can be built after the fact by scanning the packfile.
+很重要的一点是, 要从打包文件中提取(extract)出一个对象, 索引文件*不是*必不可少的. 索引文件的作用是帮助用户*快速地*从打包文件中提取对象. 那些"上传打包"(upload-pack)和"取回打包"(receive-pack)程序(译注: 实现push和fetch协议的程序)使用打包文件格式(packfile format)去传输对象, 但是没有使用索引 - 索引可以在上传或者取回打包文件之后通过扫描打包文件重新建立.
 
-### The Packfile Format ###
+### 打包文件格式 ###
 
-The packfile itself is a very simple format.  There is a header, a series of
-packed objects (each with it's own header and body) and then a checksum trailer.
-The first four bytes is the string 'PACK', which is sort of used to make sure 
-you're getting the start of the packfile correctly.  This is followed by a 4-byte
-packfile version number and then a 4-byte number of entries in that file.  In
-Ruby, you might read the header data like this:
+打包文件格式是很简单的. 它有一个头部(header)和一系列打包过的对象(每个都有自己的header和body), 还有一个校验尾部(trailer). 前4个字节是字符串'PACK', 它用于确保你找到了打包文件的起始位置. 紧接着是4个字节的打包文件版本号, 之后的4个字节指出了此文件中入口(entry)的个数. 你可以用下面Ruby程序读出打包文件的头部:
 
 	ruby
 	def read_pack_header
@@ -56,48 +30,22 @@ Ruby, you might read the header data like this:
 	  [sig, ver, entries]
 	end
 
-After that, you get a series of packed objects, in order of thier SHAs
-which each consist of an object header and object contents.  At the end
-of the packfile is a 20-byte SHA1 sum of all the shas (in sorted order) in that
-packfile. 
+头部之后是一系列按照SHA值排序的打包对象, 每一个打包对象包含了头部和内容. 打包文件的尾部是该文件中所有(已排序)SHA值的SHA1校验值(20字节长)(译注: 即按照排序好的顺序进行迭代SHA1运算).
 
 [fig:packfile-format]
 
-The object header is a series of one or more 1 byte (8 bit) hunks that
-specify the type of object the following data is, and the size of the data
-when expanded.  Each byte is really 7 bits of data, with the first bit being
-used to say if that hunk is the last one or not before the data starts.  If
-the first bit is a 1, you will read another byte, otherwise the data starts
-next.  The first 3 bits in the first byte specifies the type of data, 
-according to the table below. 
+对象头部(object header)由1个或以上的字节按序组成, 它指出了后面所跟数据的类型及展开后的尺寸. 头部的每一个字节有7位用于数据, 第1位用于说明头部是否还有后续字节. 如果第1位是'1', 你需要再读入1个字节(译注: 即下一字节仍属于头部), 否则下一字节就是数据. 第一个字节的前3位指定了数据的类型, 具体含义参见下表.
 
-(Currently, of the 8 values that can be expressed
-with 3 bits (0-7), 0 (000) is 'undefined' and 5 (101) is not yet used.)
+(3个位可以组合成为8个数. 在当前的使用中, 0(000)是'未定义', 5(101)目前未被使用.)
 
-Here, we can see an example of a header of two bytes, where the first
-specifies that the following data is a commit, and the remainder of the first
-and the last 7 bits of the second specifies that the data will be 144 bytes
-when expanded.
+这里我们举一个由两个字节组成的头部的例子. 第1个字节的前3位说明了数据的类型是提交(commit), 余下的4位和第2个字节的7位组成的数字是144, 说明数据展开后的长度是144字节.
 
 [fig:packfile-logic]
 
-It is important to note that the size specified in the header data is not 
-the size of the data that actually follows, but the size of that data *when 
-expanded*. This is why the offsets in the packfile index are so useful, 
-otherwise you have to expand every object just to tell when the next header 
-starts.
+值得注意的一点是, 对象头部中包含的'尺寸'不是后面跟着的数据的长度, 而是数据*展开之后*的长度. 因此, 打包索引文件中的偏移是很有用的, 有了它你不必展开每一个对象就可以得到下一个头部的起始位置.
 
-The data part is just zlib stream for non-delta object types; for the two
-delta object representations, the data portion contains something that
-identifies which base object this delta representation depends on, and the
-delta to apply on the base object to resurrect this object.  <code>ref-delta</code>
-uses 20-byte hash of the base object at the beginning of data, while
-<code>ofs-delta</code> stores an offset within the same packfile to identify the base
-object.  In either case, two important constraints a reimplementor must
-adhere to are:
+对于非delta对象, 数据部分就只是zlib压缩后的数据流. 对于那两种delta对象, 数据部分包含了它所依赖的基对象(base object)以及用于重构对象的delta(差异)数据. 数据的前20个字节称为<code>ref-delta</code>, 它是基对象SHA值的前20个字节. <code>ofs-delta</code>存储了基对象在同一打包文件中的偏移. 任何情况下, 有两个约束必须严格遵守:
 
-* delta representation must be based on some other object within the same
-  packfile;
+* delta对象和基对象必须位于同一打包文件;
 
-* the base object must be of the same underlying type (blob, tree, commit
-  or tag);
+* delta对象和基对象的类型必须一致(即tree对tree, blob对blob, 等等).
