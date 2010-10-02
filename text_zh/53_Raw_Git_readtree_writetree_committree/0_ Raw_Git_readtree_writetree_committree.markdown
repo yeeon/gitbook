@@ -1,16 +1,10 @@
-## Raw Git ##
+## 更底层的Git ##
 
-Here we will take a look at how to manipulate git at a more raw level, in
-case you would like to write a tool that generates new blobs, trees or commits 
-in a more artificial way.  If you want to write a script that uses more low-level
-git plumbing to do something new, here are some of the tools you'll need.
+这一章我们会学习如何在更低的层次操作Git, 以防你需要自己写一个新工具去人工生成blob(块), tree(树)或者commit(提交)对象. 如果你想使用更加底层的Git命令去写脚本, 你会需要用到以下的命令.
 
-### Creating Blobs ###
+### 创建blob对象 ###
 
-Creating a blob in your Git repository and getting a SHA back is pretty easy.
-The linkgit:git-hash-object[1] command is all you'll need.  To create a blob
-object from an existing file, just run it with the '-w' option (which tells it
-to write the blob, not just compute the SHA).
+在你的Git仓库中创建一个blob对象并且得到它的SHA值是很容易的, 使用linkgit:git-hash-object[1]就足够了. 要使用一个现有的文件去创建新blob, 使用'-w'选项去运行前面提到的命令('-w'选项告诉Git要生成blob, 而不是仅仅计算SHA值).
 
 	$ git hash-object -w myfile.txt
 	6ff87c4664981e4397625791c8ea3bbb5f2279a3
@@ -18,38 +12,31 @@ to write the blob, not just compute the SHA).
 	$ git hash-object -w myfile2.txt
 	3bb0e8592a41ae3185ee32266c860714980dbed7
 
-The STDOUT output of the command will the the SHA of the blob that was created.
+标准输出中显示的值就是创建的blob的SHA值.
 
-### Creating Trees ###
+### 创建tree对象 ###
 
-Now lets say you want to create a tree from your new objects. 
-The linkgit:git-mktree[1] command makes it pretty simple to generate new
-tree objects from linkgit:git-ls-tree[1] formatted output.  For example, if
-you write the following to a file named '/tmp/tree.txt' :
+假设你要使用你创建的一些对象去组建一棵树, 按照linkgit:git-ls-tree[1]的格式组织好输入, linkgit:git-mktree[1]就可以为你生成需要的tree对象. 例如, 如果你把下面的信息写入到'/tmp/tree.txt'中:
 
 	100644 blob 6ff87c4664981e4397625791c8ea3bbb5f2279a3	file1
 	100644 blob 3bb0e8592a41ae3185ee32266c860714980dbed7	file2
 
-and then piped that through the linkgit:git-mktree[1] command, Git will
-write a new tree to the object database and give you back the new sha of that
-tree.
+然后通过管道把这些信息输入到linkgit:git-mktree[1]中, Git会生成一个新的tree对象, 把它写入到对象数据库(object database)中, 然后返回tree对象的SHA值.
 
 	$ cat /tmp/tree.txt | git mk-tree
 	f66a66ab6a7bfe86d52a66516ace212efa00fe1f
 
-Then, we can take that and make it a subdirectory of yet another tree, and so 
-on.  If we wanted to create a new tree with that one as a subtree, we just 
-create a new file (/tmp/newtree.txt) with our new SHA as a tree in it:
+然后, 我们可以把刚才生成的tree作为另外一个tree的子目录, 等等等等. 如果我们需要创建一个带子树的树对象(这个子树就是前面生成的tree对象), 只需创建一个新文件(/tmp/newtree.txt), 把前面的tree对象的SHA值写入:
 
 	100644 blob 6ff87c4664981e4397625791c8ea3bbb5f2279a3	file1-copy
 	040000 tree f66a66ab6a7bfe86d52a66516ace212efa00fe1f	our_files
 
-and then use linkgit:git-mk-tree[1] again:
+然后再次调用linkgit:git-mk-tree[1]:
 
 	$ cat /tmp/newtree.txt | git mk-tree
 	5bac6559179bd543a024d6d187692343e2d8ae83
 
-And we now have an artificial directory structure in Git that looks like this:
+现在我们有了一个人工创建的目录结构:
 
 	.
 	|-- file1-copy
@@ -59,20 +46,13 @@ And we now have an artificial directory structure in Git that looks like this:
 
 	1 directory, 3 files
 	
-without that structure ever having actually existed on disk.  Plus, we have
-a SHA (<code>5bac6559</code>) that points to it.
+但是上面的结构并不在磁盘上存在. 另外, 我们使用SHA值去指向它(<code>5bac6559</code>).
 
-### Rearranging Trees ###
+### 重新组织树 ###
 
-We can also do tree manipulation by combining trees into new structures using
-the index file.  As a simple example, let's take the tree we just created and
-make a new tree that has two copies of our <code>5bac6559</code> tree in it
-using a temporary index file. (You can do this by resetting the GIT_INDEX_FILE
-environment variable or on the command line)
+我们也可以使用索引文件把树嵌入到新的结构中. 举个简单的例子, 我们使用一个临时索引文件创建一棵新的树, 其中包含了<code>5bac6559</code>这棵树的两个副本. (设置GIT_INDEX_FILE环境变量使之指向临时索引文件)
 
-First, we read the tree into our index file under a new prefix using the
-linkgit:git-read-tree[1] command, and then write the index contents as 
-a tree using the linkgit:git-write-tree[1] command:
+首先, 用linkgit:git-read-tree[1]把树对象读入到临时索引文件中, 并给每个副本一个新的前缀; 然后再用linkgit:git-write-tree[1]把索引中的内容生成一棵新的树:
 
 	$ export GIT_INDEX_FILE=/tmp/index
 	$ git read-tree --prefix=copy1/  5bac6559
@@ -84,16 +64,11 @@ a tree using the linkgit:git-write-tree[1] command:
 	040000 tree 5bac6559179bd543a024d6d187692343e2d8ae83	copy1
 	040000 tree 5bac6559179bd543a024d6d187692343e2d8ae83	copy2
 	
-So now we can see that we've created a new tree just from index manipulation.
-You can also do interesting merge operations and such in a temporary index
-this way - see the linkgit:git-read-tree[1] docs for more information.
+现在我们可以看到, 通过操纵索引文件可以得到一棵新的树. 你也可以在临时索引文件中做合并等操作 - 请参见linkgit:git-read-tree[1]取得更多信息.
 
-### Creating Commits ###
+### 创建commit对象 ###
 
-Now that we have a tree SHA, we can create a commit object that points to it.
-We can do this using the linkgit:git-commit-tree[1] command.  Most of the data
-that goes into the commit has to be set as environment variables, so you'll want
-to set the following:
+现在我们有了一棵树的SHA值, 我们可以使用linkgit:git-commit-tree[1]命令创建一个指向它的commit对象. 大部分commit对象的数据都是通过环境变量来设定的, 你需要设置下面的环境变量:
 
 	GIT_AUTHOR_NAME
 	GIT_AUTHOR_EMAIL
@@ -102,23 +77,16 @@ to set the following:
 	GIT_COMMITTER_EMAIL
 	GIT_COMMITTER_DATE
 
-Then you will need to write your commit message to a file or somehow pipe it
-into the command through STDIN. Then, you can create your commit object 
-based on the tree sha we have.
+然后你把你的提交信息写入到一个文件中并且通过管道传送给linkgit:git-commit-tree[1], 即可得到一个commit对象.
 
 	$ git commit-tree bb2fa < /tmp/message
 	a5f85ba5875917319471dfd98dfc636c1dc65650
 	
-If you want to specify one or more parent commits, simply add the shas on the
-command line with a '-p' option before each.  The SHA of the new commit object
-will be returned via STDOUT.
+如果你需要指定一个或多个父commit对象, 只需要使用'-p'参数一个一个指定父commit对象. 同样的, 新对象的SHA值通过STDOUT返回.
 
-### Updating a Branch Ref ###
+### 更新分支的引用 ###
 
-Now that we have a new commit object SHA, we can update a branch to point to
-it if we want to.  Lets say we want to update our 'master' branch to point to
-the new commit we just created - we would use the linkgit:git-update-ref[1]
-command:
+现在我得拿到了新的commit对象的SHA值, 如有需要, 我们可以使用一个分支指向它. 比如说我们需要更新'master'分支的引用, 使其指向刚刚创建的新对象, 我们可以使用linkgit:git-update-ref[1]去完成这个工作:
 
 	$ git update-ref refs/heads/master a5f85ba5875917319471dfd98dfc636c1dc65650
 
