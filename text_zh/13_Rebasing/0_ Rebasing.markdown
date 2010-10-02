@@ -1,4 +1,4 @@
-## 衍合 ##
+## rebase ##
 
 假设你现在基于远程分支"origin"，创建一个叫"mywork"的分支。
 
@@ -44,12 +44,12 @@
 
 [fig:rebase4]
 
-现在我们可以看一下用合并(merge)和用衍合(rebase)所产生的历史的区别：
+现在我们可以看一下用合并(merge)和用rebase所产生的历史的区别：
 
 [fig:rebase5]
 
 
-在衍合的过程中，也许会出现冲突(conflict). 在这种情况，Git会停止衍合并会让你去解决
+在rebase的过程中，也许会出现冲突(conflict). 在这种情况，Git会停止rebase并会让你去解决
 冲突；在解决完冲突后，用"git-add"命令去更新这些内容的索引(index), 然后，你无需执行
 git-commit,只要执行:
 
@@ -58,8 +58,8 @@ git-commit,只要执行:
 
 这样git会继续应用(apply)余下的补丁。
 
-在任何时候，你可以用`--abort`参数来终止衍合(rebase)的行动，并且"mywork"
-分支会回到衍合开始前的状态。
+在任何时候，你可以用`--abort`参数来终止rebase的行动，并且"mywork"
+分支会回到rebase开始前的状态。
 
     $ git rebase --abort
 

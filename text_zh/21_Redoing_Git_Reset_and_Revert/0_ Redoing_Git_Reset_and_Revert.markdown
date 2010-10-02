@@ -50,4 +50,4 @@ Git提供了多种修复你开发过程中的错误的方法. 方法的选择取
 
 如果你刚刚做了某个提交(commit), 但是你这里又想来马上修改这个提交;  linkgit:git-commit[1] 现在支持一个叫**--amend**的参数，你能让修改刚才的这个提交(HEAD commit). 这项机制能让你在代码发布前,添加一些新的文件或是修改你的提交注释(commit message).
 
-如果你在老提交(older commit)里发现一个错误, 但是现在还没有发布到代码服务器上. 你可以使用 linkgit:git-rebase[1]命令的交互模式, "git rebase -i"会提示你在编辑中做相关的修改. 这样其实就是让你在"衍合"(rebasing)的过程来修改提交.
+如果你在老提交(older commit)里发现一个错误, 但是现在还没有发布到代码服务器上. 你可以使用 linkgit:git-rebase[1]命令的交互模式, "git rebase -i"会提示你在编辑中做相关的修改. 这样其实就是让你在rebase的过程来修改提交.

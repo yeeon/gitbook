@@ -219,7 +219,7 @@ branch.<name>.remote, 和remote.<name>.push等选项的解释.
 
 	- 用 `git-commit --amend` 去替换一个已经发布的提交，或是
 
-	- 用 `git-rebase` 去"衍合"(rebase)一个已经发布的提交.　 
+	- 用 `git-rebase` 去rebase一个已经发布的提交.　 
 
 
 你可以强制git-push在上传修改时先更先，只要分支名前面加一个加号。
