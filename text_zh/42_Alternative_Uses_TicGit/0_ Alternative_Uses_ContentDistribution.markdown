@@ -1,5 +1,5 @@
-## Alternative Uses ##
+## Git的其它用法 ##
 
 ContentDistribution
 
-TicGit
+(TicGit)[http://github.com/schacon/ticgit]
