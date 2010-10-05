@@ -4,6 +4,8 @@ Here we have the meanings of some terms used into Git context.
 These terms were entirely copied from 
 [Git Glossary](http://www.kernel.org/pub/software/scm/git/docs/gitglossary.html).  
 
+我们把在Git里常用的一些名词做了解释列在这晨。
+这些名词(terms)全部来自[Git Glossary](http://www.kernel.org/pub/software/scm/git/docs/gitglossary.html)。
 
 _alternate object database_
 
@@ -23,10 +25,29 @@ _bare repository_
     and no other files are present and checked out. Usually publishers of
     public repositories make bare repositories available.
 
+
+_祼仓库_
+
+>
+    A bare repository is normally an appropriately
+    named directory with a `.git` suffix that does not
+    have a locally checked-out copy of any of the files under
+    revision control. That is, all of the `git`
+    administrative and control files that would normally be present in the
+    hidden `.git` sub-directory are directly present in the
+    `repository.git` directory instead,
+    and no other files are present and checked out. Usually publishers of
+    public repositories make bare repositories available.
+
+    
 _blob object_
 
 >   Untyped object, e.g. the contents of a file.
 
+_二进制对象_
+>
+    没有类型的数据对象。例如：一个文件的内容。
+    
 _branch_
 
 >   A "branch" is an active line of development.  The most recent
@@ -38,6 +59,10 @@ _branch_
     branches, but your working tree is
     associated with just one of them (the "current" or "checked out"
     branch), and HEAD points to that branch.
+
+_分支_
+>
+    一个“分支”是开发过程中的(active line)。。。。
 
 _cache_
 
@@ -63,6 +88,10 @@ _checkout_
     object database, and updating the
     index and HEAD if the whole working tree has
     been pointed at a new branch.
+
+_签出_
+>
+    用对象仓库(object database)里的一个树对象(tree object)更新当前整个工作树(worktree)，或者一个二进制对象(blob object)更新工作树的一部分；如果工作树指向了一个新的分支，那么就会更新索引(index)和HEAD。
 
 _cherry-picking_
 
@@ -93,6 +122,26 @@ _commit_
     state of the index and advancing HEAD
     to point at the new commit.
 
+
+_提交_
+
+>   As a noun: A single point in the
+    git history; the entire history of a project is represented as a
+    set of interrelated commits.  The word "commit" is often
+    used by git in the same places other revision control systems
+    use the words "revision" or "version".  Also used as a short
+    hand for commit object.
+
+>
+    作为名词：指向git历史的某一点的指针；整个项目的历史就由一组相互关联的提交组成的。提交(commit)在其它版本控制系统中也做"revision"或"version"。同时做为提交对象(commit object)的缩写。
+
+>   As a verb: The action of storing a new snapshot of the project's
+    state in the git history, by creating a new commit representing the current
+    state of the index and advancing HEAD
+    to point at the new commit.
+>
+    作为动词：
+
 _commit object_
 
 >   An object which contains the information about a
@@ -100,6 +149,12 @@ _commit object_
     author, date and the tree object which corresponds
     to the top directory of the stored
     revision.
+
+_提交对象_
+
+>   
+    
+    ()
 
 _core git_
 
@@ -120,12 +175,17 @@ _dangling object_
     dangling object has no references to it from any
     reference or object in the repository.
 
+_悬空对象_
+
+>   
+    ()
+
 _detached HEAD_
 
 >   Normally the HEAD stores the name of a
-    branch.  However, git also allows you to check out
-    an arbitrary commit that isn't necessarily the tip of any
-    particular branch.  In this case HEAD is said to be "detached".
+>   branch.  However, git also allows you to check out
+>   an arbitrary commit that isn't necessarily the tip of any
+>   particular branch.  In this case HEAD is said to be "detached".
 
 _dircache_
 
@@ -141,6 +201,11 @@ _dirty_
     it contains modifications which have not been committed to the current
     branch.
 
+_脏_
+
+>  一个工作树里有没有提交到当前分支里修改，那么我就说它是脏的"dirty"。
+
+
 _ent_
 
 >   Favorite synonym to "tree-ish" by some total geeks. See
@@ -151,6 +216,7 @@ _evil merge_
 
 >   An evil merge is a merge that introduces changes that
     do not appear in any parent.
+
 
 _fast forward_
 
@@ -163,6 +229,12 @@ _fast forward_
     tracking branch of a remote
     repository.
 
+_快速向前_
+
+>   “fast-forward”是一种特殊的合并,()。 
+>   在这种情况下，并没有创建一个合并提交(merge commit)，只是更新了版本信息。
+>   当本地分支是远端仓库(remote repository)的跟踪分支时，这种情况经常出现。
+
 _fetch_
 
 >   Fetching a branch means to get the
@@ -171,15 +243,27 @@ _fetch_
     missing from the local object database,
     and to get them, too.  See also linkgit:git-fetch[1].
 
+_抓取_
+
+>   抓取一个分支意味着：得到远端仓库(remote repository)分支的head ref，找出本地对象数据库所缺少的对象，并把它们下载下来。你可以参考一下 linkgit:git-fetch[1]。
+
 _file system_
 
 >   Linus Torvalds originally designed git to be a user space file system,
     i.e. the infrastructure to hold files and directories. That ensured the
     efficiency and speed of git.
 
+_文件系统_
+
+>   Linus Torvalds 最初设计git时，是把它设计在一个用户空间(user space)文件系统；也就是一个来保存文件和目录的 infrastructure。这样就保证了git的速度和效率。
+
 _git archive_
 
 >   Synonym for repository (for arch people).
+
+_git archive_
+
+>   对玩架构的人来说，这就是仓库的同意词。
 
 _grafts_
 
@@ -193,12 +277,17 @@ _hash_
 
 >   In git's context, synonym to object name.
 
+_哈希_
+
+>   在git里，这就是对象名(object name)的同意词。
+
 _head_
 
 >   A named reference to the commit at the tip of a
     branch.  Heads are stored in
     `$GIT_DIR/refs/heads/`, except when using packed refs. (See
     linkgit:git-pack-refs[1].)
+
 
 _HEAD_
 
@@ -221,6 +310,10 @@ _hook_
     `$GIT_DIR/hooks/` directory, and are enabled by simply
     removing the `.sample` suffix from the filename. In earlier versions
     of git you had to make them executable.
+
+_钩子_
+
+>   在一些git命令的执行过程中，
 
 _index_
 
@@ -501,6 +594,11 @@ _tree_
 >   Either a working tree, or a tree object together with the dependent 
     blob and tree objects (i.e. a stored representation of a working tree).
 
+_树_
+
+>  
+   可以是
+
 _tree object_
 
 >   An object containing a list of file names and modes along
@@ -511,6 +609,11 @@ _tree-ish_
 
 >   A ref pointing to either a commit object, a tree object, or a tag
     object pointing to a tag or commit or tree object.
+
+_树名_
+
+>   
+    一个指向的提交对象(commit object)，树对象(tree object)或是标签对象(tag object)的引用(ref)。
 
 _unmerged index_
 
@@ -527,3 +630,8 @@ _working tree_
 >   The tree of actual checked out files.  The working tree is
     normally equal to the HEAD plus any local changes
     that you have made but not yet committed.
+
+_工作树_
+
+>   
+    签出(checkout)文件tree. 工作树一般等价于HEAD加本地没有提交的修改。
