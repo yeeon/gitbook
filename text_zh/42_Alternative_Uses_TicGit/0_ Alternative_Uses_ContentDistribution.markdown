@@ -2,4 +2,4 @@
 
 ContentDistribution
 
-(TicGit)[http://github.com/schacon/ticgit]
+[TicGit](http://github.com/schacon/ticgit)
