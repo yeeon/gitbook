@@ -89,7 +89,7 @@ _checkout_
     index and HEAD if the whole working tree has
     been pointed at a new branch.
 
-_签出_
+_checkout (签出)_
 >
     用对象仓库(object database)里的一个树对象(tree object)更新当前整个工作树(worktree)，或者一个二进制对象(blob object)更新工作树的一部分；如果工作树指向了一个新的分支，那么就会更新索引(index)和HEAD。
 
@@ -152,9 +152,8 @@ _commit object_
 
 _提交对象_
 
->   
-    
-    ()
+>   一个关于特定版本信息(particular revision)的对象。包括父对象名，提交者，作者，日期和存储了此版本内容的树对象名。
+        
 
 _core git_
 
@@ -167,6 +166,10 @@ _DAG_
     directed acyclic graph, because they have parents (directed), and the
     graph of commit objects is acyclic (there is no chain
     which begins and ends with the same object).
+
+_DAG_
+
+>   有向无环图。众多提交对象(commit objects)组成了一个有向无环图；因为它们有直接父对象(direct parent)，且没有一条提交线路(chain)的起点和终点都是同一个对象。
 
 _dangling object_
 
@@ -194,6 +197,10 @@ _dircache_
 _directory_
 
 >   The list you get with "ls" :-)
+
+_目录_
+
+>   执行"ls"命令所显示的结果 :-)
 
 _dirty_
 
@@ -263,7 +270,7 @@ _git archive_
 
 _git archive_
 
->   对玩架构的人来说，这就是仓库的同意词。
+>   对玩架构的人来说，这就是仓库的同义词。
 
 _grafts_
 
@@ -279,7 +286,7 @@ _hash_
 
 _哈希_
 
->   在git里，这就是对象名(object name)的同意词。
+>   在git里，这就是对象名(object name)的同义词。
 
 _head_
 
@@ -313,7 +320,10 @@ _hook_
 
 _钩子_
 
->   在一些git命令的执行过程中，
+>   在一些git命令的执行过程中, () 允许开发人员调用特别的脚本来添加功能或检查。
+    ()
+    
+    Typically，钩子允许对一个命令做pre-verified并且可以中止此命令的运行；同时也可在这个命令执行完后做后继的通知工作。这些钩子脚本放在`$GIT_DIR/hooks/`目录下，你只要把这它们文件名的`.sample`后缀删掉就可以了。不过在git的早期版本，你需要为这些钩子脚本加上可执行属性。
 
 _index_
 
@@ -338,6 +348,10 @@ _master_
     cases, this contains the local development, though that is
     purely by convention and is not required.
 
+_主分支 (master)_
+
+>   默认的开发分支。当你创建了一个git仓库，一个叫"master"的分支就被创建并且成为当前分支。()
+
 _merge_
 
 >   As a verb: To bring the contents of another
@@ -360,11 +374,21 @@ _merge_
     This commit is referred to as a "merge commit", or sometimes just a
     "merge".
 
+_merge_
+
+>   作为动词：把另外一个分支(也许来自另外一个仓库)的内容合并进当前的分支。
+
+>   作为名词：除非合并的结果是 fast forward；一次成功的合并会创建一个提交(commit) --()。这个提交(commit)也可以表述为“合并提交”(merge commit)，或者就是"合并"(merge 名词)。
+
 _object_
 
 >   The unit of storage in git. It is uniquely identified by the
     SHA1> of its contents. Consequently, an
     object can not be changed.
+
+_对象_
+
+>   Git的存储单位，它以对象内容的SHA1值做为不重复的对象名；因此对象内容是不能被修改的。
 
 _object database_
 
@@ -376,6 +400,10 @@ _object identifier_
 
 >   Synonym for object name.
 
+_对象标识符_
+
+>   对象名(object name)的同义词。
+
 _object name_
 
 >   The unique identifier of an object. The hash
@@ -383,15 +411,28 @@ _object name_
     1 and usually represented by the 40 character hexadecimal encoding of
     the hash of the object.
 
+_对象名_
+
+>   一个对象的唯一标识符(unique identifier)。它是使用SHA1算法(Secure Hash Algorithm 1)给对象内容进行哈希(hash)计算，产生的一个40个字节长的16进制编码的串。
+
 _object type_
 
 >   One of the identifiers "commit", "tree", "tag" or "blob" describing the 
     type of an object.
 
+_对象类型_
+
+>   有4种对象类型：提交(commit)，树(tree)，标签(tag)和二进制块(blob)。
+
 _octopus_
 
 >   To merge more than two branches. Also denotes an
     intelligent predator.
+
+_章鱼_
+
+>   多于两个分支的合并(merge)。也用来表示聪明的肉食动物。
+
 
 _origin_
 
@@ -402,10 +443,18 @@ _origin_
     origin/name-of-upstream-branch, which you can see using
     "`git branch -r`".
 
+_原始_
+
+>   默认的上游仓库(upstream repository)。每个项目至少有一个它追踪(track)的上游(upstream)，通常情况 origin 就是用于这种目的。你可以用 ”｀git branch -r`" 命令查看上游仓库(upstream repository)里所有的分支，再用 origin/name-of-upstream-branch 的名字来抓取(fetch)远程追踪分支里的内容。
+
 _pack_
 
 >   A set of objects which have been compressed into one file (to save space
     or to transmit them efficiently).
+
+_包_
+
+>   一个文件，里面有一些压缩了的对象。(用以节约空间或是提高传输效率)。
 
 _pack index_
 
@@ -413,11 +462,19 @@ _pack index_
     pack, to assist in efficiently accessing the contents of a
     pack.
 
+_包索引_
+
+>   包(pack)里的一些标识符和其它相关信息，用于帮助git快速的访问包(pack)里面的对象。
+
 _parent_
 
 >   A commit object contains a (possibly empty) list
     of the logical predecessor(s) in the line of development, i.e. its
     parents.
+
+_父对象_
+
+>   一个提交对象(commit object)，()。
 
 _pickaxe_
 
@@ -443,6 +500,10 @@ _pull_
 >   Pulling a branch means to fetch it and
     merge it.  See also linkgit:git-pull[1].
 
+_拉_
+
+>   拉(pull)一个分支意味着，把它抓取(fetch)下来并合并(merge)进当前的分支。可以参考 linkgit:git-pull[1].
+
 _push_
 
 >   Pushing a branch means to get the branch's
@@ -455,6 +516,10 @@ _push_
     object database, and updating the remote
     head ref. If the remote head is not an
     ancestor to the local head, the push fails.
+
+_推_
+
+>   ()
 
 _reachable_
 
@@ -472,6 +537,10 @@ _rebase_
 >   To reapply a series of changes from a branch to a
     different base, and reset the head of that branch
     to the result.
+
+_rebase_
+
+>   重新应用(reapply)当前分支(branch)和另一个分支(base)间的修改；并且根据rebase的结果重置当前分支的 head。
 
 _ref_
 
