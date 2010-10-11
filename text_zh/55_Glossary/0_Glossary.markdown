@@ -4,7 +4,7 @@ Here we have the meanings of some terms used into Git context.
 These terms were entirely copied from 
 [Git Glossary](http://www.kernel.org/pub/software/scm/git/docs/gitglossary.html).  
 
-我们把在Git里常用的一些名词做了解释列在这晨。
+我们把在Git里常用的一些名词做了解释列在这里。
 这些名词(terms)全部来自[Git Glossary](http://www.kernel.org/pub/software/scm/git/docs/gitglossary.html)。
 
 _alternate object database_
@@ -658,6 +658,15 @@ _tracking branch_
     identified as the right-hand-side ref in a Pull:
     refspec.
 
+_跟踪分支_
+
+>   A regular git branch that is used to follow changes from
+    another repository. A tracking
+    branch should not contain direct modifications or have local commits
+    made to it. A tracking branch can usually be
+    identified as the right-hand-side ref in a Pull:
+    refspec.
+
 _tree_
 
 >   Either a working tree, or a tree object together with the dependent 
@@ -666,13 +675,18 @@ _tree_
 _树_
 
 >  
-   可以是
+   可以是一个工作树(working tree)，也可以是一个树对象(tree object)。
 
 _tree object_
 
 >   An object containing a list of file names and modes along
     with refs to the associated blob and/or tree objects. A
     tree is equivalent to a directory.
+
+
+_树对象_
+
+>   包含有一串(list)文件名和模式(mode)，并且指向与之相关的二进制对象(blob object)和树对象(tree object)。一个树(tree)等价于一个目录。
 
 _tree-ish_
 
@@ -689,10 +703,18 @@ _unmerged index_
 >   An index which contains unmerged
     index entries.
 
+_未合并索引_
+
+>   一个索引中包含有未合并的索引条目(index entries)。
+
 _unreachable object_
 
 >   An object which is not reachable from a
     branch, tag, or any other reference.
+
+_不可达对象_
+
+>   从任何一个分支、标签或是其它引用(reference)做为起点都无法到达的一个对象。
 
 _working tree_
 
@@ -703,4 +725,4 @@ _working tree_
 _工作树_
 
 >   
-    签出(checkout)文件tree. 工作树一般等价于HEAD加本地没有提交的修改。
+    签出(checkout)用于编辑的文件目录树。 工作树一般等价于HEAD加本地没有提交的修改。
