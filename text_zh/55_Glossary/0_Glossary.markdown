@@ -598,9 +598,17 @@ _SCM_
 
 >   Source code management (tool).
 
+_SCM_
+
+>   源代码管理工作。
+
 _SHA1_
 
 >   Synonym for object name.
+
+_SHA1_
+
+>   对象名(object name)的同意词。
 
 _shallow repository_
 
@@ -656,16 +664,12 @@ _tracking branch_
     branch should not contain direct modifications or have local commits
     made to it. A tracking branch can usually be
     identified as the right-hand-side ref in a Pull:
+
     refspec.
 
 _跟踪分支_
 
->   A regular git branch that is used to follow changes from
-    another repository. A tracking
-    branch should not contain direct modifications or have local commits
-    made to it. A tracking branch can usually be
-    identified as the right-hand-side ref in a Pull:
-    refspec.
+>   
 
 _tree_
 
