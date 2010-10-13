@@ -171,7 +171,7 @@ or just
 
     $ git push ssh://yourserver.com/~you/proj.git master
 
-和git-fetc,命令一样giit-push如是命令的执行结果不是"快速向前"(fast forward)
+和git-fetch, 命令一样giit-push如是命令的执行结果不是"快速向前"(fast forward)
 就会报错; 下面的章节会讲如何处理这种情况.
 
 
