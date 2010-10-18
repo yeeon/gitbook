@@ -68,17 +68,29 @@ _cache_
 
 >   Obsolete for: index.
 
+_缓存_
+
+>   索引(index)的旧称(obsolete).
+
 _chain_
 
 >   A list of objects, where each object in the list contains
     a reference to its successor (for example, the successor of a
     commit could be one of its parents).
 
+_链表_
+
+>   一串对象，其中每个对象都有指向其后继对象指针(reference to its successor)。例如：一个提交(commit)的后继对象就是它的父对象。
+
 _changeset_
 
 >   BitKeeper/cvsps speak for "commit". Since git does not
     store changes, but states, it really does not make sense to use the term
     "changesets" with git.
+
+_修改集_
+
+>   BitKeeper/cvsps 里对于提交(commit)的说法。但是 git 只存储状态(states)，不存储修改；所以这个词用在 git 里真是不大合适。
 
 _checkout_
 
@@ -102,11 +114,19 @@ _cherry-picking_
     by an existing commit and to record it based on the tip
     of the current branch as a new commit.
 
+_cherry-picking_
+
+>   在SCM的行话里，“cherry pick“ 意味着从一系列的修改中选出一部分修改(通常是提交)，应用到当前代码中。()
+
 _clean_
 
 >   A working tree is clean, if it
     corresponds to the revision referenced by the current
     head. Also see "dirty".
+
+_干净_
+
+>   如一个工作树(working tree)中所有的修改都已提交到了当前分支里(current head)，那么就说它是干净的(clean)，
 
 _commit_
 
@@ -181,7 +201,7 @@ _dangling object_
 _悬空对象_
 
 >   
-    ()
+    一个甚至从其它不可达对象也不可达的对象(unreachable object)；仓库里的一个悬空对象没有任何引用(reference)或是对象(object)引用它。
 
 _detached HEAD_
 
@@ -224,6 +244,10 @@ _evil merge_
 >   An evil merge is a merge that introduces changes that
     do not appear in any parent.
 
+
+_坏的合并_
+
+>   如果一次合并引入一些不存在于任何父对象(parent)中的修改，那么就称它是一个坏的合并(evil merge)。
 
 _fast forward_
 
@@ -295,6 +319,10 @@ _head_
     `$GIT_DIR/refs/heads/`, except when using packed refs. (See
     linkgit:git-pack-refs[1].)
 
+_head_
+
+>   指向一个分支最新提交的命名引用(named reference)。Heads 一般存储在 `$GIT_DIR/refs/heads/`，除非使用了打包引用(packed refs)。
+    参见: linkgit:git-pack-refs[1]
 
 _HEAD_
 
@@ -303,9 +331,17 @@ _HEAD_
     of the heads in your repository, except when using a detached HEAD, in which
     case it may	reference an arbitrary commit.
 
+_HEAD_
+
+>   当前分支。（）
+
 _head ref_
 
 >   A synonym for head.
+
+_head ref_
+
+>   head的同义词。
 
 _hook_
 
