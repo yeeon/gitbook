@@ -210,9 +210,20 @@ _detached HEAD_
 >   an arbitrary commit that isn't necessarily the tip of any
 >   particular branch.  In this case HEAD is said to be "detached".
 
+
+_分离的HEAD_
+
+>   通常情况下HEAD里是存放当前分支的名字。然而 git 有时也允许你签出任意的一个提交(commit)，而不一定是某分支的最近的提交；在这种情况下，HEAD就是处于分离的状态(detached)。 
+>   译者注：这时`.git/HEAD`中存储的就是签出的提交的SHA串值。
+
+
 _dircache_
 
 >   You are *waaaaay* behind. See index.
+
+_dircache_
+
+>   请参见索引(index)。
 
 _directory_
 
@@ -238,6 +249,11 @@ _ent_
 >   Favorite synonym to "tree-ish" by some total geeks. See
     `http://en.wikipedia.org/wiki/Ent_(Middle-earth)` for an in-depth
     explanation. Avoid this term, not to confuse people.
+
+
+_ent_
+
+>   某些人给树名(tree-ish)起的另外一个别名，这里`http://en.wikipedia.org/wiki/Ent_(Middle-earth)`有更详细的解释。最好不要使用这个名词，以免让大家糊涂。
 
 _evil merge_
 
@@ -333,7 +349,8 @@ _HEAD_
 
 _HEAD_
 
->   当前分支。（）
+>   当前分支。更准确的说，你的工作树(working tree)通是从HEAD所指向的tree所派生的来的。
+>   HEAD 必须是指向一个你仓库里的head，除非你使用分离的HEAD(detached HEAD)。
 
 _head ref_
 
@@ -368,6 +385,10 @@ _index_
     working tree. Truth be told, it can also contain a second, and even
     a third version of a working tree, which are used
     when merging.
+
+_索引_
+
+>   
 
 _index entry_
 
@@ -524,6 +545,10 @@ _plumbing_
 
 >   Cute name for core git.
 
+_plumbing_
+
+>   core git的别名(cute name)。
+
 _porcelain_
 
 >   Cute name for programs and program suites depending on
@@ -568,6 +593,11 @@ _reachable_
     trees to the trees or blobs
     that they contain.
 
+
+_可达的_
+
+>   
+
 _rebase_
 
 >   To reapply a series of changes from a branch to a
@@ -584,12 +614,20 @@ _ref_
     denotes a particular object. These may be stored in
     `$GIT_DIR/refs/`.
 
+_引用_
+
+>   一个40字节长的SHA1串或是指向某个对象的名字。它们可能存储在 `$GIT_DIR/refs/`。
+
 _reflog_
 
 >   A reflog shows the local "history" of a ref.  In other words,
     it can tell you what the 3rd last revision in _this_ repository
     was, and what was the current state in _this_ repository,
     yesterday 9:14pm.  See linkgit:git-reflog[1] for details.
+
+_reflog_
+
+>   reflog用以表示本地的ref的历史记录。从另外一角度也可以说，它能行告诉你这个仓库最近的第3个版本(revision)是什么，昨天晚上9点14分时你是在这个仓库的哪个分支下工作。可以参见:linkgit:git-reflog[1]。
 
 _refspec_
 
@@ -603,7 +641,12 @@ _refspec_
     it as my origin branch head". And `git push
     $URL refs/heads/master:refs/heads/to-upstream` means "publish my
     master branch head as to-upstream branch at $URL". See also
-    linkgit:git-push[1].
+    
+
+_refspec_
+
+>   "refspec"在抓取和推的过程中描述远程ref和本地ref之间的映射关系。它用冒号连接：<src>:<dst>，前面也可以加一个加号：“+“。
+    例如：`git fetch $URL refs/heads/master:refs/heads/origin` 意味着：从$URL抓取主分支的 head 并把它保存到本地的origin分支的head中。`git push $URL refs/heads/master:refs/heads/to-upstream` 意味着：把我的主分支 head 推到$URL上的 to-upstream分支里。可以参见： linkgit:git-push[1]。
 
 _repository_
 
@@ -619,16 +662,34 @@ _resolve_
 >   The action of fixing up manually what a failed automatic
     merge left behind.
 
+_resolve_
+
+>   在自动合并失败后，手工修复合冲突的行为。
+
+
 _revision_
 
 >   A particular state of files and directories which was stored in the
     object database. It is referenced by a
     commit object.
 
+_版本_
+
+>   保存对象仓库(object database)的文件和目录某一特定时间点的状态；它会被一个提交对象(commit object)所引用。
+
 _rewind_
 
 >   To throw away part of the development, i.e. to assign the
     head to an earlier revision.
+
+_rewind_
+
+>   To throw away part of the development, i.e. to assign the
+    head to an earlier revision.
+
+_rewind_
+
+>   丢弃某一部分开发成果。例如：把head 指向早期的版本。
 
 _SCM_
 
@@ -677,6 +738,11 @@ _tag_
     called an object type in git's context). A
     tag is most typically used to mark a particular point in the
     commit ancestry chain.
+
+_标签_
+
+>   一个ref指向一个标签或是一个提交对象。与 head 相反，标签并不会在一次提交操作后改变。标签(不是标签对象)存储在`$GIT_DIR/refs/tags/`。 一个标签通常是用来标识提交家族链(commit ancerstry chain)里的某一点。
+
 
 _tag object_
 
@@ -766,3 +832,4 @@ _工作树_
 
 >   
     签出(checkout)用于编辑的文件目录树。 工作树一般等价于HEAD加本地没有提交的修改。
+ 
