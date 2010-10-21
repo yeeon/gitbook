@@ -664,7 +664,6 @@ _resolve_
 
 >   在自动合并失败后，手工修复合冲突的行为。
 
-
 _revision_
 
 >   A particular state of files and directories which was stored in the
@@ -703,7 +702,7 @@ _SHA1_
 
 _SHA1_
 
->   对象名(object name)的同意词。
+>   对象名(object name)的同义词。
 
 _shallow repository_
 
