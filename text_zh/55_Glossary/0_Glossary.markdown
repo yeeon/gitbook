@@ -145,22 +145,11 @@ _commit_
 
 _提交_
 
->   As a noun: A single point in the
-    git history; the entire history of a project is represented as a
-    set of interrelated commits.  The word "commit" is often
-    used by git in the same places other revision control systems
-    use the words "revision" or "version".  Also used as a short
-    hand for commit object.
-
 >
     作为名词：指向git历史的某一点的指针；整个项目的历史就由一组相互关联的提交组成的。提交(commit)在其它版本控制系统中也做"revision"或"version"。同时做为提交对象(commit object)的缩写。
 
->   As a verb: The action of storing a new snapshot of the project's
-    state in the git history, by creating a new commit representing the current
-    state of the index and advancing HEAD
-    to point at the new commit.
 >
-    作为动词：
+    作为动词：创建一新的提交(commit)来表示当前索引(index)的状态，把 HEAD 指向新创建的提交，这一系列把项目在某一时间上的快照(snapshot)保存在git历史中的操作。
 
 _commit object_
 
@@ -179,6 +168,10 @@ _core git_
 
 >   Fundamental data structures and utilities of git. Exposes only limited
     source code management tools.
+
+_core git_
+
+>   Git的基本数据结构和工具。它只对外提供简单的代码管理工具。
 
 _DAG_
 
@@ -278,7 +271,7 @@ _fast forward_
 
 _快速向前_
 
->   “fast-forward”是一种特殊的合并,()。 
+>   “fast-forward”是一种特殊的合并,()。
 >   在这种情况下，并没有创建一个合并提交(merge commit)，只是更新了版本信息。
 >   当本地分支是远端仓库(remote repository)的跟踪分支时，这种情况经常出现。
 
@@ -388,7 +381,7 @@ _index_
 
 _索引_
 
->   
+>   描述项目状态信息的文件，。索引里保存的是你的工作树的版本记录。()
 
 _index entry_
 
@@ -396,6 +389,11 @@ _index entry_
     index. An index entry can be unmerged, if a
     merge was started, but not yet finished (i.e. if
     the index contains multiple versions of that file).
+
+
+_索引条目_
+
+>   
 
 _master_
 
@@ -407,7 +405,7 @@ _master_
 
 _主分支 (master)_
 
->   默认的开发分支。当你创建了一个git仓库，一个叫"master"的分支就被创建并且成为当前分支。()
+>   默认的开发分支。当你创建了一个git仓库，一个叫"master"的分支就被创建并且成为当前分支(active branch)。在多数情况下，这个分支里就包含有本地的开发内容。
 
 _merge_
 
@@ -739,9 +737,10 @@ _tag_
     tag is most typically used to mark a particular point in the
     commit ancestry chain.
 
+
 _标签_
 
->   一个ref指向一个标签或是一个提交对象。与 head 相反，标签并不会在一次提交操作后改变。标签(不是标签对象)存储在`$GIT_DIR/refs/tags/`。 一个标签通常是用来标识提交家族链(commit ancerstry chain)里的某一点。
+>   一个ref指向一个标签或提交对象。与 head 相反，标签并不会在一次提交操作后改变。标签(不是标签对象)存储在`$GIT_DIR/refs/tags/`。 一个标签通常是用来标识提交家族链(commit ancerstry chain)里的某一点。
 
 
 _tag object_
@@ -750,6 +749,10 @@ _tag object_
     another object, which can contain a message just like a
     commit object. It can also contain a (PGP)
     signature, in which case it is called a "signed tag object".
+
+_标签对象_
+
+>   一个含有指向其它对象的引用(ref)的对象，对象里也包括有注释消息。如果它里面可以含有一个PGP签名，那么就称为一个“签名标签对象”。
 
 _topic branch_
 
@@ -769,9 +772,9 @@ _tracking branch_
 
     refspec.
 
-_跟踪分支_
+_追踪分支_
 
->   
+>   一个用以追踪(follow)另外一个仓库的修改的git分支。()
 
 _tree_
 
