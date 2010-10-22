@@ -52,7 +52,11 @@ the outcome of 'git-am'.
 
 这个钩子被 'git-commit' 命令调用, 而且可以通过在命令中添加`\--no-verify` 参数来跳过。这个钩子没有参数，在得到提交消息和开始提交(commit)前被调用。如果钩子执行结果是非零，那么 'git-commit' 命令就会中止执行。
 
-当默认的'pre-commit'钩子开启时，如果它发现提交消息的开头(introduction)是空白行，那么就会中止此次提交。
+译注：此钩子可以用来在提交前检查代码错误(运行类似lint的程序)。
+
+当默认的'pre-commit'钩子开启时，如果它发现文件尾部有空白行，那么就会中止此次提交。
+
+译注：新版的默认钩子和这里所说有所有不同。
 
 All the 'git-commit' hooks are invoked with the environment
 variable `GIT_EDITOR=:` if the command will not bring up an editor
@@ -111,6 +115,7 @@ be used as replacement for pre-commit hook.
 
 The sample `prepare-commit-msg` hook that comes with git comments
 out the `Conflicts:` part of a merge's commit message.
+
 
 
 ### commit-msg ###
