@@ -2,7 +2,7 @@
 
 [fig:object-tag]
 
-一个标签对象包一个对象名(译者注:就是SHA1签名), 对象类型, 标签名, 标签创建人的名字("tagger"), 还有一条可能包含有签名(signature)的消息. 你可以用 linkgit:git-cat-file[1] 命令来查看这些信息:
+一个标签对象包括一个对象名(译者注:就是SHA1签名), 对象类型, 标签名, 标签创建人的名字("tagger"), 还有一条可能包含有签名(signature)的消息. 你可以用 linkgit:git-cat-file[1] 命令来查看这些信息:
 
     $ git cat-file tag v1.5.0
     object 437b1b20df4b356c9342dac8d38849f24ef44f27
