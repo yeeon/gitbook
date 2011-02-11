@@ -8,14 +8,14 @@
 
     $>tree -L 1
     .
-    |-- HEAD         # pointer to your current branch
-    |-- config       # your configuration preferences
-    |-- description  # description of your project 
-    |-- hooks/       # pre/post action hooks
-    |-- index        # index file (see next section)
-    |-- logs/        # a history of where your branches have been
-    |-- objects/     # your objects (commits, trees, blobs, tags)
-    `-- refs/        # pointers to your branches
+    |-- HEAD         # 这个git项目当前处在哪个分支里
+    |-- config       # 项目的配置信息，git config命令会改动它
+    |-- description  # 项目的描述信息
+    |-- hooks/       # 系统默认钩子脚本目录
+    |-- index        # 索引文件
+    |-- logs/        # 各个refs的历史信息
+    |-- objects/     # Git本地仓库的所有对象 (commits, trees, blobs, tags)
+    `-- refs/        # 标识你项目里的每个分支指向了哪个提交(commit)。
 
 (也许现在还有其它 文件/目录 在 'Git目录' 里面, 但是现在它们并不重要)
 
