@@ -227,20 +227,15 @@ branch.<name>.remote, 和remote.<name>.push等选项的解释.
 
     $ git push ssh://yourserver.com/~you/proj.git +master
 
-Normally whenever a branch head in a public repository is modified, it
-is modified to point to a descendant of the commit that it pointed to
-before.  By forcing a push in this situation, you break that convention.
+通常不论公共仓库的分支是否被修改，他都被修改为指向原来指向的提交(commit)
+跟随的下一个提交(commit)。如果在这种情况下强制地推送，你就破坏了之前的约定。
 
+尽管如此，这也是一种通常的用法来简单地发布一系列正在修正的补丁，并且只要你
+通知了其他的开发者你打算怎样操作这个分支，这也是一种可以接受的折中办法。
 
-Nevertheless, this is a common practice for people that need a simple
-way to publish a work-in-progress patch series, and it is an acceptable
-compromise as long as you warn other developers that this is how you
-intend to manage the branch.
-
-It's also possible for a push to fail in this way when other people have
-the right to push to the same repository.  In that case, the correct
-solution is to retry the push after first updating your work: either by a
-pull, or by a fetch followed by a rebase; see the next section and
-linkgit:gitcvs-migration[7] for more.
+一个推送(push)也可能因为其他人有向这个仓库(repository)推送的权利而失败。
+在这种情况下，正确地解决办法是首先用"pull"命令或者"fetch"命令和"rebase"
+命令更新你的代码，然后重新尝试推送(push)；更详细的了解请看下一部分和
+linkgit:gitcvs-migration[7]。
 
 [gitcast:c8-dist-workflow]("GitCast #8: Distributed Workflow")
