@@ -1,66 +1,55 @@
 ## Git Hooks ##
 
-钩子(hooks)是一些在"$GIT-DIR/hooks"目录的脚本, 在被特定的事件(certain points)触发后被调用。当"git init"命令被调用后, 一些非常有用的示例钩子文件(hooks)被拷到新仓库的hooks目录中; 但是在默认情况下这些钩子(hooks)是不生效的。 把这些钩子文件(hooks)的".sample"文件名后缀去掉就可以使它们生效了。
+钩子(hooks)是一些在`$GIT-DIR/hooks`目录的脚本, 在被特定的事件(certain points)触发后被调用。当`git init`命令被调用后, 一些非常有用的示例钩子脚本被拷到新仓库的hooks目录中; 但是在默认情况下它们是不生效的。 把这些钩子文件的".sample"文件名后缀去掉就可以使它们生效。
 
 ### applypatch-msg ###
 
     GIT_DIR/hooks/applypatch-msg
     
-当'git-am'命令执行时，这个钩子就被调用。它只有一个参数：就是存有提交消息(commit log message)的文件的名字。如果钩子的执行结果是非零，那么补丁(patch)就不会被应用(apply)。
+这个钩子是由`git am`命令调用的。它只有一个参数：就是存有将要被应用的补丁(patch)的提交消息(commit log message)的文件名。如果钩子的返回值不是`0`，那么`git am`就会放弃对补丁的应用(apply the patch)。
 
-The hook is allowed to edit the message file in place, and can be used to 
-normalize the message into some project standard format (if the project has one).
-It can also be used to refuse the commit after inspecting the message file.
-The default applypatch-msg hook, when enabled, runs the commit-msg hook, if the
-latter is enabled.
 
-这个钩子用于在其它地方编辑提交消息，并且可以把这些消息规范成项目的标准格式(如果项目些类的标准的话)。它也可以在分析(inspect)完消息文件后拒绝此次提交(commit)。在默认情况下，当 applypatch-msg 钩子被启用时。。。。
+这个钩子可以在工作时（译注:也就是在`git am`运行时）编辑提交(commit)信息文件(message file)。它的一个用途是把提交(commit)信息规范化，使得其符合一些项目的标准（如果有的话）。它也可以用来在分析(inspect)完消息文件后拒绝某个提交(commit)。
 
-()
+
+如果默认的`applypatch-msg.sample`钩子被启用，它会调用`commit-msg`钩子（如果它也被启用的话）。
+
 
 ### pre-applypatch ###
 
     GIT_DIR/hooks/pre-applypatch
 
-当'git-am'命令执行时，这个钩子就被调用。它没有参数，并且是在一个补丁(patch)被应用后还未提交(commit)前被调用。如果钩子的执行结果是非零，那么刚才应用的补丁(patch)就不会被提交。
+这个钩子是由`git am`命令调用的。它不需要参数，并且是在一个补丁(patch)被应用后还未提交(commit)前被调用。如果钩子的返回值不是`0``，那么刚才应用的补丁(patch)就不会被提交。
 
-It can be used to inspect the current working tree and refuse to make a commit 
-if it does not pass certain test.
-The default pre-applypatch hook, when enabled, runs the pre-commit hook, if the
-latter is enabled.
 
-它用于检查当前的工作树，当提交的补丁不能通过特定的测试就拒绝将它提交(commit)进仓库。
-()
+它可以用于检查当前的工作树（译注：此时补丁已经被应用但没有被提交），如果补丁不能通过测试就拒绝此次提交(commit)。
+
+
+如果默认的`pre-applypatch.sample`钩子被启用，它会调用`pre-commit`钩子（如果它也被启用的话）。
 
 ### post-applypatch ###
 
     GIT_DIR/hooks/post-applypatch
     
-This hook is invoked by 'git-am'.  It takes no parameter,
-and is invoked after the patch is applied and a commit is made.
 
-当'git-am'命令执行时，这个钩子就被调用。它没有参数，并且是在一个补丁(patch)被应用且在完成提交(commit)情况下被调用。
+这个钩子是由`git am`命令调用的。它不需要参数，并且是在一个补丁(patch)被应用且在完成提交(commit)情况下被调用。
 
-This hook is meant primarily for notification, and cannot affect
-the outcome of 'git-am'.
 
-这个钩子的主要用途是通知提示(notification)，它并不会影响'git-am'的执行和输出。
+这个钩子主要用来通知(notification)，它并不会影响`git-am`的执行结果。
 
 ### pre-commit ###
  	
     GIT_DIR/hooks/pre-commit
 
-这个钩子被 'git-commit' 命令调用, 而且可以通过在命令中添加`\--no-verify` 参数来跳过。这个钩子没有参数，在得到提交消息和开始提交(commit)前被调用。如果钩子执行结果是非零，那么 'git-commit' 命令就会中止执行。
+这个钩子被 `git commit` 命令调用, 而且可以通过在命令中添加`\--no-verify` 参数来跳过。这个钩子不需要参数，在得到提交消息和开始提交(commit)前被调用。如果钩子返回值不是`0`，那么 `git commit` 命令就会中止执行。
 
-译注：此钩子可以用来在提交前检查代码错误(运行类似lint的程序)。
+译注：这个钩子可以用来在提交前检查代码错误（例如运行lint程序）。
 
-当默认的'pre-commit'钩子开启时，如果它发现文件尾部有空白行，那么就会中止此次提交。
+当默认的`pre-commit`钩子被启用时，如果它发现文件尾部有空白行，那么就会中止此次提交。
 
 译注：新版的默认钩子和这里所说有所有不同。
 
-All the 'git-commit' hooks are invoked with the environment
-variable `GIT_EDITOR=:` if the command will not bring up an editor
-to modify the commit message.
+如果（进行`git commit`的）命令没有制定一个编辑器来修改提交信息(commit message)，任何的 `git-commit` 钩子（译注：即无论是否自带）被调用时都会带上环境变量`GIT_EDITOR=:`
 
 
 下面是一个运行 Rspec 测试的 Ruby 脚本，如果没有通过这个测试，那么不允许提交(commit)。
@@ -90,33 +79,29 @@ to modify the commit message.
 
     GIT_DIR/hooks/prepare-commit-msg
 
-当'git-commit'命令执行时：在编辑器(editor)启动前，默认提交消息准备好后，这个钩子就被调用。
+执行`git commit`命令后，在默认提交消息准备好后但编辑器(editor)启动前，这个钩子就被调用。
 
 It takes one to three parameters.  The first is the name of the file
-that the commit log message.  The second is the source of the commit
-message, and can be: `message` (if a `-m` or `-F` option was
-given); `template` (if a `-t` option was given or the
-configuration option `commit.template` is set); `merge` (if the
-commit is a merge or a `.git/MERGE_MSG` file exists); `squash`
-(if a `.git/SQUASH_MSG` file exists); or `commit`, followed by
-a commit SHA1 (if a `-c`, `-C` or `\--amend` option was given).
-
-它有三个参数。第一个是提交消息文件的名字。第二个是提交消息的来源，它可以是：().
 
 
-如果钩子的执行結果是非零的话，那么'git-commit'命令就会被中止执行。
-
-The purpose of the hook is to edit the message file in place, and
-it is not suppressed by the `\--no-verify` option.  A non-zero exit
-means a failure of the hook and aborts the commit.  It should not
-be used as replacement for pre-commit hook.
-
-
-
-The sample `prepare-commit-msg` hook that comes with git comments
-out the `Conflicts:` part of a merge's commit message.
+它接受一到三个参数。第一个包含了提交消息的文本文件的名字。第二个是提交消息的来源，它可以是：
+* `message`（如果指定了`-m`或者`-F`选项）
+* `template`（如果指定了`-t`选项，或者在设置（译注：即`git config`）中开启了`commit.template`选项）
+* `merge`（如果本次提交(commit)是一次合并(merge)，或者存在文件`.git/MERGE_MSG`）
+* `squash`（如果存在文件`.git/SQUASH_MSG`）
+* `commit` 并且第三个参数是一个提交(commit)的SHA1值（如果指定了`-c`,`-C`或者`\--amend`选项）
 
 
+如果钩子的返回值不是`0`，那么`git commit`命令就会被中止执行。
+
+
+这个钩子的目的是用来在工作时编辑信息文件，并且不会被`\--no-verify`选项略过。一个非`0`值意味着钩子工作失败，会终止提交(abort the commit)。它不应该用来作为`pre-commit`钩子的替代。
+
+
+git提供的样本`prepare-commit-msg.sample`会把当前合并提交信息(a merge's commit message)中的`Conflicts:`部分注释掉。 
+
+
+#Harry-Chen 校对至此#
 
 ### commit-msg ###
 
